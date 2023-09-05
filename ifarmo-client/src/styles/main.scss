@@ -1,0 +1,32 @@
+:root {
+  --bg-color: #FAF9F6;
+  --text-color: #1b222c;
+  --text-color-light: #354058;
+  --text-color-lighter: #637a97;
+  --border-color: #333;
+  --border-color-light: #666;
+  --border-color-lighter: #999;
+  --border-color-lightest: #ccc;
+  --red-color: #f87171;
+  --amber-color: #fcd34d;
+  --green-color: #102820;
+  --cyan-color: #22d3ee;
+  --indigo-color: #818cf8;
+}
+
+a.title {
+  font-family: 'MS700', sans-serif;
+}
+
+::selection {
+  background: var(--red-color);
+  color: var(--text-color);
+}
+
+a {
+  color: var(--red-color);
+}
+
+#nprogress .bar {
+  background-color: var(--green-color) !important;
+}

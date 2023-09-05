@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:8.0
+    platform: linux/amd64
+    volumes:
+      - /tmp:/tmp
+    ports:
+      - 3306:3306
+    networks:
+      - network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    restart: always
+
+  ifarmo:
+    image: ifarmo-nodejs
+    platform: linux/amd64
+    volumes:
+      - /tmp:/tmp
+    networks:
+      - network
+    environment:
+      MYSQL_HOST: ${DB_HOST}
+    ports:
+      - 8000:8000
+    restart: always
+
+  lb:
+    image: eeacms/haproxy
+    platform: linux/amd64
+    depends_on:
+      - ifarmo
+    ports:
+      - "80:5000"
+      - "1936:1936"
+    environment:
+      BACKENDS: "ifarmo"
+      BACKENDS_PORT: "8000"
+      DNS_ENABLED: "true"
+      COOKIES_ENABLED: "false"
+      LOG_LEVEL: "info"
+    networks:
+      - network
+
+volumes:
+  schemas:
+    external: false
+
+networks:
+  network:
+    driver: bridge

@@ -1,0 +1,51 @@
+$label: (
+        border: 0,
+        radius: 4px,
+        padding: 10px 15px,
+        font: 'MS100',
+        bg: #efefef,
+        label-color: inherit
+);
+
+@function label($key) {
+  @return map-get($label, $key);
+}
+
+.label {
+  display: inline-block;
+  max-width: 240px;
+  position: relative;
+  width: 100%;
+  font-family: label(font), sans-serif;
+}
+
+.label input {
+  appearance: none;
+  border: label(border);
+  border-radius: label(radius);
+  box-sizing: border-box;
+  display: inline-block;
+  outline: 0;
+  padding: label(padding);
+  transition: transform 225ms ease-in-out;
+  width: 100%;
+  background: label(bg);
+}
+
+.label input + label {
+  border: label(border);
+  border-radius: label(radius);
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: label(padding);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-100%);
+  transition: transform 250ms ease-in-out;
+  width: 100%;
+  color: label(label-color);
+}

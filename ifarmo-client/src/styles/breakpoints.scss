@@ -1,0 +1,41 @@
+$xs: 0px;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+
+@mixin up($breakpoint) {
+  @if $breakpoint == "xs" {
+    @media (min-width: $xs) { @content; }
+  }
+  @else if $breakpoint == "sm" {
+    @media (min-width: $sm) { @content; }
+  }
+  @else if $breakpoint == "md" {
+    @media (min-width: $md) { @content; }
+  }
+  @else if $breakpoint == "lg" {
+    @media (min-width: $lg) { @content; }
+  }
+  @else if $breakpoint == "xl" {
+    @media (min-width: $xl) { @content; }
+  }
+}
+
+@mixin down($breakpoint) {
+  @if $breakpoint == "xs" {
+    @media (max-width: $sm - 1) { @content; }
+  }
+  @else if $breakpoint == "sm" {
+    @media (max-width: $md - 1) { @content; }
+  }
+  @else if $breakpoint == "md" {
+    @media (max-width: $lg - 1) { @content; }
+  }
+  @else if $breakpoint == "lg" {
+    @media (max-width: $xl - 1) { @content; }
+  }
+  @else if $breakpoint == "xl" {
+    @media (max-width: $xl) { @content; }
+  }
+}
