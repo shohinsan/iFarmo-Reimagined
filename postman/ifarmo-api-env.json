@@ -1,0 +1,21 @@
+{
+	"id": "cfa100bb-dd04-4f04-930d-278ae09290fa",
+	"name": "ifarmo-api-env",
+	"values": [
+		{
+			"key": "host",
+			"value": "localhost",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "port",
+			"value": "8000",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-09-05T04:50:38.287Z",
+	"_postman_exported_using": "Postman/10.17.5"
+}
