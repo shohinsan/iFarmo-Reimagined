@@ -1,7 +1,8 @@
 FROM node:18
+RUN npm install -g pnpm
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm install
+RUN pnpm install
 COPY . .
 EXPOSE 8000
 CMD [ "node", "app.js" ]
