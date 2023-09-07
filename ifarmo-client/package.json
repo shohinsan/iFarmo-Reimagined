@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
+		"preinstall": "npx only-allow pnpm",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -39,6 +40,7 @@
 		"leaflet": "^1.9.4",
 		"radix-icons-svelte": "^1.2.1",
 		"sass": "^1.66.1",
-		"svelte-preprocess": "^5.0.4"
+		"svelte-preprocess": "^5.0.4",
+		"svelte-tiny-virtual-list": "^2.0.5"
 	}
 }

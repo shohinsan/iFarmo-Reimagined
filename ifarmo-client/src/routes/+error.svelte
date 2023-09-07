@@ -1,5 +1,6 @@
 <script>
     import { page } from '$app/stores';
+    import {Button} from "@svelteuidev/core";
 </script>
 
 <svelte:head>
@@ -12,6 +13,8 @@
     {:else}
         <h1>Something went wrong</h1>
     {/if}
+
+
 </div>
 
 <style>

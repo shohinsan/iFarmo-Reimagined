@@ -12,12 +12,6 @@ export const actions = {
         const password = data.get("password") as string;
         const confirm_password = data.get("confirm_password") as string;
 
-        console.log("Form Data:", {
-            username,
-            password,
-            confirm_password,
-        });
-
         if (!username || !password) {
             return fail(400, { usernamePasswordRequired: "Username and password are required." });
         }
@@ -39,7 +33,6 @@ export const actions = {
         const userId = res.user.userId;
         const role = res.user.role;
         const payload = { userId, role };
-        console.log('payload', payload)
         const token = jwt.sign(payload, TOKEN_SECRET);
         cookies.set('access-token', token, {
             path: '/',

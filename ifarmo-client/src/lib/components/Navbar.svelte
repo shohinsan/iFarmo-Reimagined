@@ -6,7 +6,7 @@
         Tooltip,
         ShellSection, Button, Group, Menu, Divider, Anchor,
     } from '@svelteuidev/core';
-    import {Sun, Moon, Gear, ChatBubble, Person, Width} from 'radix-icons-svelte';
+    import {Sun, Moon, Gear, ChatBubble, Person, Width, SewingPin} from 'radix-icons-svelte';
     import {hotkey, useOs} from '@svelteuidev/composables';
     import {page} from "$app/stores";
 
@@ -20,7 +20,7 @@
         credentials = $page.data.credentials;
     }
 
-    console.log($page.data.credentials.username);
+    // console.log($page.data.credentials.username);
 
     const os = useOs();
     const mod = os === 'macos' ? '⌘' : 'ctrl';
@@ -55,6 +55,10 @@
         {
             name: 'Equipment',
             href: '/equipment',
+        },
+        {
+            name: 'Farms',
+            href: '/farms',
         }
     ];
 
@@ -79,11 +83,14 @@
 <nav>
     <div class="location">
         <ShellSection grow>
-            <a href="/map">
+            <Anchor underline={false} href="/map">
                 {#if $location}
-                    <span class="link-text">{$location.city}</span>
+                <Button>
+                    <SewingPin slot="leftIcon" />
+                        <span class="link-text">{$location.city}</span>
+                </Button>
                 {/if}
-            </a>
+            </Anchor>
         </ShellSection>
         <Tooltip label={`${mod} + J`}>
             <ActionIcon variant="default" on:click={toggle} size={35} use={[[hotkey, [['mod+J', toggle]]]]}>

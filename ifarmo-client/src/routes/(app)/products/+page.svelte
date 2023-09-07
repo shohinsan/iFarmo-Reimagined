@@ -7,7 +7,6 @@
         Group,
         Badge,
         Text,
-        Accordion,
         Image,
         Menu,
         Button,
@@ -18,11 +17,24 @@
     import {navigating, page} from "$app/stores";
     import Products from "$components/Products.svelte";
 
+    // export let user_credentials = {
+    //     products: [],
+    //     credentials: {},
+    // };
+
     export let data;
-    const notLoggedIn = !data.user;
+
+
+
     const loggedIn = data.user;
+    const rolePrivileges = $page.data.credentials.role ? $page.data.credentials.role : null;
     let products = $page.data.products;
-    let searchAndFilter = products;
+
+    let searchAndFilter = products.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
+
 
     function debounce(func, delay) {
         let timeoutId;
@@ -63,11 +75,13 @@
         "Meat", "Dairy", "Baked goods", "Plants", "Other"
     ];
     let checked = Array(types.length).fill(false);
+
     function toggleChecked(index) {
         checked[index] = !checked[index];
         debounceTags();
         console.log(selectedTypes);
     }
+
     function updateSelectedTypes() {
         selectedTypes = checked
             .map((isChecked, index) => (isChecked ? types[index] : null))
@@ -77,12 +91,17 @@
         );
         console.log(selectedTypes)
     }
+
     const debounceTags = debounce(updateSelectedTypes, 1000);
 
 </script>
 
 <div class="content">
     <Container fixed size="md" override={{ px: 'md' }}>
+
+
+
+
         <Box css={{
                 backgroundColor: '$gray50',
                 textAlign: 'end',
@@ -98,8 +117,10 @@
                 <Menu placement="end"
                       delay={500}>
                     <Menu.Label>Sort by: Not implemented yet</Menu.Label>
-                    <Menu.Item icon={Gear}>Relevance</Menu.Item>
-                    <Menu.Item icon={ChatBubble}>Date</Menu.Item>
+                    <Menu.Item icon={Gear}>Recent first (default)</Menu.Item>
+                    <Menu.Item icon={ChatBubble}>Closest first</Menu.Item>
+                    <Menu.Item icon={ChatBubble}>Price: Low to High</Menu.Item>
+                    <Menu.Item icon={ChatBubble}>Price: High to Low</Menu.Item>
                 </Menu>
             </div>
         </Box>
@@ -188,7 +209,9 @@
                                     <Text>Unit Type: {product.unitType}</Text>
                                     <Text>Price {product.price}</Text>
                                     <Text>City: {product.city}</Text>
-                                    <Text>Created By: {product.username}</Text>
+                                    <Text>Created By:
+                                        <Anchor href="/{product.username}">{product.username}</Anchor>
+                                    </Text>
                                     <Text>Date Posted: {new Date(product.createdAt).toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'long',
@@ -209,7 +232,8 @@
             {/each}
         </SimpleGrid>
 
-        <Box css={{
+        {#if !loggedIn}
+            <Box css={{
             backgroundColor: '$gray50',
             textAlign: 'center',
             padding: '$15',
@@ -219,19 +243,19 @@
             cursor: 'pointer', '&:hover': {
                 backgroundColor: '$gray100'
             }}}>
-            <Text size="xl"
-                  component='span'
-                  align='center'
-                  weight='bold'
-                  variant='gradient'
-                  gradient={{ from: 'blue', to: 'green', deg: 45 }}>
-                Boost your productivity. Start using our website today
-            </Text>
+                <Text size="xl"
+                      component='span'
+                      align='center'
+                      weight='bold'
+                      variant='gradient'
+                      gradient={{ from: 'blue', to: 'green', deg: 45 }}>
+                    Boost your productivity. Start using our website today
+                </Text>
 
-            <Container padding="md" align="center"
-                       style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
-                <Title
-                        override={{
+                <Container padding="md" align="center"
+                           style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
+                    <Title
+                            override={{
                             marginTop: '$10',
                             marginBottom: '$10',
                             textAlign: 'center',
@@ -240,42 +264,25 @@
                             alignItems: 'center',
                             cursor: 'pointer',
                         }}
-                        order={3}>Whether you're a
-                    <Text color="blue" inherit component="span">
-                        farmer
-                    </Text>
-                    looking to list products, hire help, or lend equipment,
-                    or a
-                    <Text color="blue" inherit component="span">
-                        client
-                    </Text>
-                    looking to buy products, find a job, or rent equipment, we've got you covered.
-                </Title>
-                <Anchor underline={false} href="/register" style="margin-top: auto;">
-                    <Button ripple variant='gradient' gradient={{from: 'teal', to: 'green', deg: 105}}>
-                        Get Started
-                    </Button>
-                </Anchor>
-            </Container>
-        </Box>
-
-        <Accordion override={{
-            marginBottom: '$10',
-            marginTop: '$10',
-        }}>
-            <Accordion.Item value="typescript">
-                <div slot="control">Consider for FAQ use</div>
-                Build type safe applications...
-            </Accordion.Item>
-            <Accordion.Item value="packed">
-                <div slot="control">bla bla bla</div>
-                SvelteUI contains more than just components...
-            </Accordion.Item>
-            <Accordion.Item value="accessible">
-                <div slot="control">lmao lmao</div>
-                All components are accessible according to WAI-ARIA standards....
-            </Accordion.Item>
-        </Accordion>
+                            order={3}>Whether you're a
+                        <Text color="blue" inherit component="span">
+                            farmer
+                        </Text>
+                        looking to list products, hire help, or lend equipment,
+                        or a
+                        <Text color="blue" inherit component="span">
+                            client
+                        </Text>
+                        looking to buy products, find a job, or rent equipment, we've got you covered.
+                    </Title>
+                    <Anchor underline={false} href="/register" style="margin-top: auto;">
+                        <Button ripple variant='gradient' gradient={{from: 'teal', to: 'green', deg: 105}}>
+                            Get Started
+                        </Button>
+                    </Anchor>
+                </Container>
+            </Box>
+        {/if}
     </Container>
 
 
@@ -285,8 +292,9 @@
     <!--    {/await}-->
     <!--{/if}-->
 
-    <Products centered overlayOpacity={0.55} overlayBlur={3}/>
-
+    {#if rolePrivileges === 'farmer'}
+        <Products centered overlayOpacity={0.55} overlayBlur={3}/>
+    {/if}
 
 </div>
 

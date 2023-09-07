@@ -22,6 +22,7 @@ type Data = {
 	name: string;
 	username: string;
 	email: string;
+	role: string;
 	password: string;
 	confirm_password: string;
 	image?: string;
@@ -40,6 +41,7 @@ type Product = {
 	productId: number;
 	name: string;
 	price: number;
+	role: string;
 	quantity: number;
 	unitType: string;
 	description: string;

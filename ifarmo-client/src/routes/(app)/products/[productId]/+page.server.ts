@@ -44,6 +44,20 @@ export const actions = {
         }
         throw redirect(303, `/products/${productId}`);
     },
-
-
+    // pushNotify: async ({cookies, fetch, params}) => {
+    //     const authToken = cookies.get('access-token');
+    //     const productId = params.productId;
+    //     if (authToken) {
+    //         const productId = params.productId;
+    //         const response = await fetch(`${API_ENDPOINT}/push-notify`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             credentials: 'include',
+    //             body: JSON.stringify({productId}),
+    //         });
+    //     }
+    //     throw redirect(303, `/products/${productId}`);
+    // }
 } satisfies Actions;

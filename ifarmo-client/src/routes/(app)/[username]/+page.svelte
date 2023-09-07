@@ -1,10 +1,10 @@
 <script>
     import {page} from '$app/stores';
-    import {Anchor, Button, Container} from "@svelteuidev/core";
+    import {Button, Container} from "@svelteuidev/core";
 
 
     let showModal = false;
-    let userRoleOptions = ['user', 'worker', 'farmer'];
+    let userRoleOptions = ['user', 'worker', 'farmer', 'gardener'];
     let profile = $page.data.profile;
     let cred = $page.data.profile.user;
     let far = $page.data.profile.farms;
@@ -30,6 +30,7 @@
 </div>
 <div class="content">
     <Container override={{bc: 'AliceBlue'}}>
+
         {#if profile}
             <div class="profile-card">
                 <img src="https://static.productionready.io/images/smiley-cyrus.jpg" alt="Profile Picture">
@@ -43,29 +44,26 @@
                     day: 'numeric'
                 })}</p>
                 <p class="profile-owner">
-                    {#if cred.role === "farmer"}Owner: {far[0].name} at {far[0].location}{/if}
+                    {#if cred.role === "farmer"}Owner: {far[0].title} at {far[0].location}{/if}
                     {#if cred.role === "worker"}Worker{/if}
                     {#if cred.role === "user"}User{/if}
                 </p>
                 {#if data.user}
                     <div class="button-section">
-                        <Anchor underline={false} href="/settings">
-                            <Button ripple fullSize on:click={editUserData} variant='gradient'
-                                    gradient={{from: 'orange', to: 'red', deg: 45}}>
-                                Edit Profile
-                            </Button>
-                        </Anchor>
+                        <Button element="a" href="/settings" variant="outline" color="red" on:click={editUserData}>
+                            Edit User Information
+                        </Button>
                     </div>
                 {/if}
             </div>
         {/if}
-        <div class="user-content">
-            Show feed here for better control of your own posts. Beneficial for other users to see your posts as well.
-        </div>
     </Container>
-
+    {#if cred.role !== "farmer"}
+        <div class="user-content">
+            Show your feed here
+        </div>
+    {/if}
 </div>
-
 
 <style lang="scss">
 
@@ -112,6 +110,5 @@
     text-align: center;
     margin: 10px;
   }
-
 
 </style>

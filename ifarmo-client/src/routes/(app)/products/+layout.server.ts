@@ -1,15 +1,16 @@
 import type {LayoutServerLoad} from './$types';
 
-const PRODUCTS_API_ENDPOINT = "http://localhost:8000/api/admin";
-const SINGLE_PRODUCT_API_ENDPOINT = "http://localhost:8000/api/product";
+const PRODUCTS_API_ENDPOINT = "http://localhost:8000/api/product";
 
 interface Product {
     productId: number;
     title: string;
     type: string;
+    role: string;
     description: string;
     city: string;
     maxPrice: number;
+    username: number;
     quantity: number;
     unitType: string;
     price: number;
@@ -36,7 +37,7 @@ export const load: LayoutServerLoad = async ({fetch, url}) => {
     controller.abort();
     const promise = products.map(async (product: Product) => {
         const productId = product.productId;
-        const single_product_response = await fetch(`${SINGLE_PRODUCT_API_ENDPOINT}/${productId}`, {
+        const single_product_response = await fetch(`${PRODUCTS_API_ENDPOINT}/${productId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

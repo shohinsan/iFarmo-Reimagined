@@ -30,20 +30,7 @@ export const actions = {
                 name, username, email, password, confirm_password,
             }),
         });
-
-        const res = await response.json();
-        const userId = res.user.userId;
-        const payload = { userId };
-        const token = jwt.sign(payload, TOKEN_SECRET);
-        cookies.set('access-token', token, {
-            path: '/',
-            httpOnly: true,
-            sameSite: 'strict',
-            maxAge: 24 * 60 * 60,
-            secure: false,
-        });
-
-        redirect(303, '/');
-        return res;
+        await response.json();
+        throw redirect(303, '/login');
     }
 } satisfies Actions;

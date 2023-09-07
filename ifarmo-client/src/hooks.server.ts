@@ -14,7 +14,7 @@ export async function handleCommunication({event, resolve}) {
     let data = null;
     if (authToken) {
         const decoded = jwt.verify(authToken, TOKEN_SECRET) as JwtPayload;
-        console.log('decoded in hooks', decoded)
+        // console.log('decoded in hooks', decoded)
         data = {
             userId: decoded.userId,
             role: decoded.role,
@@ -40,5 +40,3 @@ export const handleError: HandleServerError = ({ error, event }) => {
         code: 'UNEXPECTED'
     };
 };
-
-
