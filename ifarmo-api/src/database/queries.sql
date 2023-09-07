@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Users
 CREATE TABLE IF NOT EXISTS Farms
 (
     farmId       INT AUTO_INCREMENT PRIMARY KEY,
-    name         VARCHAR(255) NOT NULL,
+    title         VARCHAR(255) NOT NULL,
     location     VARCHAR(45)  NOT NULL,
     workingHours VARCHAR(45)           DEFAULT NULL,
     description  VARCHAR(255) NOT NULL DEFAULT 'No description',
@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS Farms
     ownerId      INT          NOT NULL,
     FOREIGN KEY (ownerId) REFERENCES Users (userId)
 );
+
 
 CREATE TABLE IF NOT EXISTS Products
 (

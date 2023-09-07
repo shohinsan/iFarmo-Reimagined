@@ -45,6 +45,31 @@ class UserService {
         });
     }
 
+
+    static async getAllUsers(req, res) {
+        const connection = await connectionProcess();
+        const search = req.query.search ? req.query.search.toLowerCase() : null;
+        const role = req.query.role;
+        let query = 'SELECT userId, name, username, email, role FROM Users';
+        const conditions = [];
+        if (search) {
+            conditions.push(`LOWER(name) LIKE '%${search}%'`);
+        }
+        if (role) {
+            conditions.push(`role = '${role}'`);
+        }
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
+        }
+        connection.query(query, (error, results) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return res.status(500).send('Database error');
+            }
+            return res.status(200).json(results);
+        });
+    }
+
     static async changePassword(req, res) {
         const body = req.body;
         const token = req.cookies['access-token'];

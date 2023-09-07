@@ -54,4 +54,15 @@ const equipmentValidation = (data) => {
     }
 }
 
+const farmValidation = (data) => {
+    {
+        const schema = Joi.object({
+            name: Joi.string().trim().min(2).max(30).required(),
+            description: Joi.string().trim().max(600).allow(null, ''),
+            city: Joi.string().trim().min(2).max(30)
+        });
+        return schema.validate(data);
+    }
+}
+
 module.exports = {userValidation, productValidation, jobValidation, equipmentValidation};

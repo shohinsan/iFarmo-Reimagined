@@ -2,6 +2,31 @@ const connectionProcess = require('../database/ConnectDatabase');
 const {verify} = require("jsonwebtoken");
 
 class JobService {
+
+    static async getAllJobs(req, res) {
+        const connection = await connectionProcess();
+        const search = req.query.search ? req.query.search.toLowerCase() : null;
+        const minSalary = req.query.minSalary;
+        let query = 'SELECT * FROM Jobs';
+        const conditions = [];
+        if (search) {
+            conditions.push(`LOWER(title) LIKE '%${search}%'`);
+        }
+        if (minSalary) {
+            conditions.push(`salary >= ${minSalary}`);
+        }
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
+        }
+        connection.query(query, (error, results) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return res.status(500).send('Database error');
+            }
+            return res.status(200).json(results);
+        });
+    }
+
     static async getJobById(req, res) {
         const jobId = req.params.jobId;
         const connection = await connectionProcess();

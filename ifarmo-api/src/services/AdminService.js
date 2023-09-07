@@ -2,29 +2,8 @@ const connectionProcess = require("../database/ConnectDatabase");
 const {verify} = require("jsonwebtoken");
 
 class AdminService {
-    static async getAllUsers(req, res) {
-        const connection = await connectionProcess();
-        const search = req.query.search ? req.query.search.toLowerCase() : null;
-        const role = req.query.role;
-        let query = 'SELECT userId, name, username, email, role FROM Users';
-        const conditions = [];
-        if (search) {
-            conditions.push(`LOWER(name) LIKE '%${search}%'`);
-        }
-        if (role) {
-            conditions.push(`role = '${role}'`);
-        }
-        if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
-        }
-        connection.query(query, (error, results) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return res.status(500).send('Database error');
-            }
-            return res.status(200).json(results);
-        });
-    }
+    minSalary;
+    maxPrice;
 
     static async getAllData(req, res) {
         const connection = await connectionProcess();
@@ -33,10 +12,11 @@ class AdminService {
         const minSalary = req.query.minSalary;
 
         const queries = [
-            `SELECT * FROM Farms${search ? ` WHERE LOWER(name) LIKE '%${search}%'` : ''}`,
+            `SELECT * FROM Users${search ? ` WHERE LOWER(name) LIKE '%${search}%'` : ''}`,
             `SELECT * FROM Products${search ? ` WHERE LOWER(title) LIKE '%${search}%'` : ''}${maxPrice ? ` AND price <= ${maxPrice}` : ''}`,
+            `SELECT * FROM Jobs${search ? ` WHERE LOWER(title) LIKE '%${search}%'` : ''}${minSalary ? ` AND salary >= ${minSalary}` : ''}`,
             `SELECT * FROM Equipments${search ? ` WHERE LOWER(title) LIKE '%${search}%'` : ''}${maxPrice ? ` AND price <= ${maxPrice}` : ''}`,
-            `SELECT * FROM Jobs${search ? ` WHERE LOWER(title) LIKE '%${search}%'` : ''}${minSalary ? ` AND salary >= ${minSalary}` : ''}`
+            `SELECT * FROM Farms${search ? ` WHERE LOWER(title) LIKE '%${search}%'` : ''}`
         ];
 
         const results = await Promise.all(queries.map(query => {
@@ -51,116 +31,17 @@ class AdminService {
             });
         }));
 
-        const [farms, products, equipment, jobs] = results;
+        const [users,farms, products, equipment, jobs] = results;
         const allData = {
-            farms,
+            users,
             products,
+            jobs,
             equipment,
-            jobs
+            farms
         };
         return res.status(200).json(allData);
     }
 
-
-    static async getAllFarms(req, res) {
-        const connection = await connectionProcess();
-        const search = req.query.search ? req.query.search.toLowerCase() : null;
-        let query = 'SELECT * FROM Farms';
-        const conditions = [];
-        if (search) {
-            conditions.push(`LOWER(name) LIKE '%${search}%'`);
-        }
-        if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
-        }
-        connection.query(query, (error, results) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return res.status(500).send('Database error');
-            }
-            return res.status(200).json(results);
-        });
-    }
-
-    static async getAllProducts(req, res) {
-        const connection = await connectionProcess();
-        const search = req.query.search ? req.query.search.toLowerCase() : null;
-        const maxPrice = req.query.maxPrice;
-        const types = req.query.type ? req.query.type.split(',') : null;
-
-        let query = 'SELECT * FROM Products';
-        const conditions = [];
-        if (search) {
-            conditions.push(`LOWER(title) LIKE '%${search}%'`);
-        }
-        if (maxPrice) {
-            conditions.push(`price <= ${maxPrice}`);
-        }
-        if (types && types.length > 0) {
-            const typeConditions = types.map(type => `LOWER(type) LIKE '%${type}'`);
-            conditions.push(`(${typeConditions.join(' OR ')})`);
-        }
-
-        if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
-        }
-
-        connection.query(query, (error, results) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return res.status(500).send('Database error');
-            }
-            return res.status(200).json(results);
-        });
-    }
-
-    static async getAllEquipment(req, res) {
-        const connection = await connectionProcess();
-        const search = req.query.search ? req.query.search.toLowerCase() : null;
-        const maxPrice = req.query.maxPrice;
-        let query = 'SELECT * FROM Equipment';
-        const conditions = [];
-        if (search) {
-            conditions.push(`LOWER(title) LIKE '%${search}%'`);
-        }
-        if (maxPrice) {
-            conditions.push(`price <= ${maxPrice}`);
-        }
-        if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
-        }
-        connection.query(query, (error, results) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return res.status(500).send('Database error');
-            }
-            return res.status(200).json(results);
-        });
-    }
-
-    static async getAllJobs(req, res) {
-        const connection = await connectionProcess();
-        const search = req.query.search ? req.query.search.toLowerCase() : null;
-        const minSalary = req.query.minSalary;
-        let query = 'SELECT * FROM Jobs';
-        const conditions = [];
-        if (search) {
-            conditions.push(`LOWER(title) LIKE '%${search}%'`);
-        }
-        if (minSalary) {
-            conditions.push(`salary >= ${minSalary}`);
-        }
-        if (conditions.length > 0) {
-            query += ' WHERE ' + conditions.join(' AND ');
-        }
-        connection.query(query, (error, results) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return res.status(500).send('Database error');
-            }
-            return res.status(200).json(results);
-        });
-    }
 
     // static async assignFarm(req, res) {
     //     const { name, location, workingHours, ownerId } = req.body;
@@ -208,6 +89,8 @@ class AdminService {
     //         return res.status(500).send('Server error');
     //     }
     // }
+
+
 
 }
 

@@ -2,6 +2,40 @@ const connectionProcess = require('../database/ConnectDatabase');
 const {verify} = require("jsonwebtoken");
 
 class ProductService {
+    static async getAllProducts(req, res) {
+        const connection = await connectionProcess();
+        const search = req.query.search ? req.query.search.toLowerCase() : null;
+        const maxPrice = req.query.maxPrice;
+        const types = req.query.type ? req.query.type.split(',') : null;
+
+        let query = 'SELECT * FROM Products';
+        const conditions = [];
+        if (search) {
+            conditions.push(`LOWER(title) LIKE '%${search}%'`);
+        }
+        if (maxPrice) {
+            conditions.push(`price <= ${maxPrice}`);
+        }
+        if (types && types.length > 0) {
+            const typeConditions = types.map(type => `LOWER(type) LIKE '%${type}'`);
+            conditions.push(`(${typeConditions.join(' OR ')})`);
+        }
+
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
+        }
+
+        connection.query(query, (error, results) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return res.status(500).send('Database error');
+            }
+            return res.status(200).json(results);
+        });
+    }
+
+
+
     productId;
     static async getProductById(req, res) {
         const productId = req.params.productId;
@@ -93,6 +127,10 @@ class ProductService {
             return res.status(404).json({error: 'Product not found'});
         }
         return res.status(200).json({message: 'Product updated successfully'});
+    }
+
+    static async pushNotify(req, res) {
+        // Implement push notification here, send/receive interested in product from client and accepting from farmer
     }
 
     static async deleteProduct(req, res) {

@@ -2,10 +2,36 @@ const connectionProcess = require('../database/ConnectDatabase');
 const {verify} = require("jsonwebtoken");
 
 class EquipmentService {
+
+    static async getAllEquipment(req, res) {
+        const connection = await connectionProcess();
+        const search = req.query.search ? req.query.search.toLowerCase() : null;
+        const maxPrice = req.query.maxPrice;
+        let query = 'SELECT * FROM Equipment';
+        const conditions = [];
+        if (search) {
+            conditions.push(`LOWER(title) LIKE '%${search}%'`);
+        }
+        if (maxPrice) {
+            conditions.push(`price <= ${maxPrice}`);
+        }
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
+        }
+        connection.query(query, (error, results) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return res.status(500).send('Database error');
+            }
+            return res.status(200).json(results);
+        });
+    }
+
+
     static async getEquipmentById(req, res) {
         const equipmentId = req.params.equipmentId;
         const connection = await connectionProcess();
-        const getEquipmentQuery = 'SELECT * FROM Equipments WHERE equipmentId = ?';
+        const getEquipmentQuery = 'SELECT * FROM Equipment WHERE equipmentId = ?';
         connection.query(getEquipmentQuery, [equipmentId], (error, equipmentResults) => {
             if (error) {
                 console.error('Error executing query:', error);
@@ -36,7 +62,7 @@ class EquipmentService {
                 return res.status(400).send('Farm does not exist for this user');
             }
             const insertEquipmentQuery = `
-                INSERT INTO Equipments (title, type, description, quantity, unitType, price, city)
+                INSERT INTO Equipment (title, type, description, quantity, unitType, price, city)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             `;
             connection.query(insertEquipmentQuery, [title, type, description, quantity, unitType, price, city, farmId], () => {
@@ -63,7 +89,7 @@ class EquipmentService {
             if (farmCount === 0) {
                 return res.status(400).send('Farm does not exist for this user');
             }
-            const updateEquipmentQuery = `UPDATE Equipments SET title = ?, type = ?, description = ?, quantity = ?, unitType = ?, price = ?, city = ? WHERE equipmentId = ?`;
+            const updateEquipmentQuery = `UPDATE Equipment SET title = ?, type = ?, description = ?, quantity = ?, unitType = ?, price = ?, city = ? WHERE equipmentId = ?`;
             connection.query(updateEquipmentQuery, [title, type, description, quantity, unitType, price, city, equipmentId], (updateError, updateResults) => {
                 if (updateError) {
                     return res.status(500).json({ error: 'Update error' });
@@ -93,7 +119,7 @@ class EquipmentService {
             if (farmCount === 0) {
                 return res.status(400).send('Farm does not exist for this user');
             }
-            const deleteEquipmentQuery = `DELETE FROM Equipments WHERE equipmentId = ?`;
+            const deleteEquipmentQuery = `DELETE FROM Equipment WHERE equipmentId = ?`;
             connection.query(deleteEquipmentQuery, [equipmentId], (deleteError, deleteResults) => {
                 if (deleteError) {
                     return res.status(500).json({ error: 'Delete error' });

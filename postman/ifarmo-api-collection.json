@@ -275,7 +275,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Farm Name\",\n  \"location\": \"Farm Location\",\n  \"workingHours\": \"9 AM - 6 PM\"\n}",
+							"raw": "{\n  \"title\": \"Labiso Farms\",\n  \"location\": \"Dalai Shaidon\",\n  \"workingHours\": \"9 AM - 6 PM\",\n  \"username\": \"testuser\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -293,6 +293,46 @@
 								"api",
 								"farm",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Farms",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/api/farm/farms",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"farm",
+								"farms"
 							]
 						}
 					},
@@ -425,6 +465,53 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/api/admin/products?search=Nuts",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"admin",
+								"products"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Nuts"
+								}
+							]
+						},
+						"description": "Test Filter By Tag: [http://localhost:8000/api/admin/products?&amp;type=9](http://localhost:8000/api/admin/jobs?search=Butcher&minSalary=99)[9](http://localhost:8000/api/admin/jobs?search=Butcher&minSalary=99)"
+					},
+					"response": []
 				}
 			]
 		},
@@ -549,6 +636,46 @@
 								"api",
 								"equipment",
 								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Equipment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}:{{port}}/api/equipment/equipment",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"equipment",
+								"equipment"
 							]
 						}
 					},
@@ -679,6 +806,57 @@
 								"update"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Jobs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/job/jobs?&minSalary=99",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"job",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "minSalary",
+									"value": "99"
+								}
+							]
+						},
+						"description": "Test Search By: [http://localhost:8000/api/admin/jobs?search=Butcher](http://localhost:8000/api/admin/jobs?search=Butcher)  \nTest Filter By Price: [http://localhost:8000/api/admin/jobs?search=Butcher&amp;minSalary=99](http://localhost:8000/api/admin/jobs?search=Butcher&minSalary=99)"
 					},
 					"response": []
 				}
@@ -907,14 +1085,9 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Admin",
-			"item": [
+				},
 				{
-					"name": "Get All Products",
+					"name": "Get All Users",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -938,7 +1111,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/admin/products?search=Nuts",
+							"raw": "http://{{host}}:{{port}}/api/user/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
@@ -946,20 +1119,18 @@
 							"port": "{{port}}",
 							"path": [
 								"api",
-								"admin",
-								"products"
-							],
-							"query": [
-								{
-									"key": "search",
-									"value": "Nuts"
-								}
+								"user",
+								"users"
 							]
-						},
-						"description": "Test Filter By Tag: [http://localhost:8000/api/admin/products?&amp;type=9](http://localhost:8000/api/admin/jobs?search=Butcher&minSalary=99)[9](http://localhost:8000/api/admin/jobs?search=Butcher&minSalary=99)"
+						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
 				{
 					"name": "Get All Data",
 					"protocolProfileBehavior": {
@@ -1001,177 +1172,6 @@
 									"key": "search",
 									"value": "Nuts"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Jobs",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/api/admin/jobs?search=Butcher&minSalary=99",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"admin",
-								"jobs"
-							],
-							"query": [
-								{
-									"key": "search",
-									"value": "Butcher"
-								},
-								{
-									"key": "minSalary",
-									"value": "99"
-								}
-							]
-						},
-						"description": "Test Search By: [http://localhost:8000/api/admin/jobs?search=Butcher](http://localhost:8000/api/admin/jobs?search=Butcher)  \nTest Filter By Price: [http://localhost:8000/api/admin/jobs?search=Butcher&amp;minSalary=99](http://localhost:8000/api/admin/jobs?search=Butcher&minSalary=99)"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Equipment",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/api/admin/products",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"admin",
-								"products"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Farms",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/api/admin/farms",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"admin",
-								"farms"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Users",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTIwNTMwNDd9.7rAxkFFfXpABGIwwpx5FFZQsyaKTu8232eGg7UBVbFg",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/api/admin/users",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"admin",
-								"users"
 							]
 						}
 					},

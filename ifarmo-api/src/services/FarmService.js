@@ -1,19 +1,31 @@
 const connectionProcess = require('../database/ConnectDatabase');
 const {verify} = require("jsonwebtoken");
+const AuthService = require("./AuthService");
+const authService = new AuthService();
 
 class FarmService {
-    static async getFarmByOwnerId(req, res) {
-        const token = req.cookies['access-token'];
 
-        if (!token) {
-            return res.status(401).send('Access denied');
+    static async getAllFarms(req, res) {
+        const connection = await connectionProcess();
+        const search = req.query.search ? req.query.search.toLowerCase() : null;
+        let query = 'SELECT * FROM Farms';
+        const conditions = [];
+        if (search) {
+            conditions.push(`LOWER(name) LIKE '%${search}%'`);
         }
-        const decoded = verify(token, process.env.TOKEN_SECRET);
-        console.log(decoded);
-        if (decoded.role !== 'farmer') {
-            return res.status(401).send('Access denied');
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
         }
-        console.log(decoded);
+        connection.query(query, (error, results) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return res.status(500).send('Database error');
+            }
+            return res.status(200).json(results);
+        });
+    }
+
+    static async getFarmByOwnerId(req, res) {
         const farmOwnerId = req.params.farmOwnerId;
         const connection = await connectionProcess();
         const getFarmQuery = 'SELECT * FROM Farms WHERE ownerId = ?';
@@ -28,7 +40,7 @@ class FarmService {
             const farm = farmResults[0];
             const farmData = {
                 farmId: farm.farmId,
-                name: farm.name,
+                title: farm.title,
                 location: farm.location,
                 workingHours: farm.workingHours,
                 ownerId: farm.ownerId,
@@ -38,50 +50,41 @@ class FarmService {
     }
 
     static async createFarm(req, res) {
-        const { name, location, workingHours } = req.body;
-
-        try {
-            const connection = await connectionProcess();
-            const token = req.cookies['access-token'];
-
-            if (!token) {
-                return res.status(401).send('Access denied');
-            }
-
-            const decodedToken = verify(token, process.env.TOKEN_SECRET);
-
-            const checkFarmQuery = 'SELECT COUNT(*) as farmCount FROM Farms WHERE ownerId = ?';
-            console.log(decodedToken.userId);
-
-            connection.query(checkFarmQuery, [decodedToken.userId], (checkError, checkResults) => {
-                if (checkError) {
-                    console.error('Error checking farm:', checkError);
-                    return res.status(500).send('An error occurred while checking the farm');
-                }
-
-                if (parseInt(checkResults[0].farmCount) > 0) {
-                    return res.status(400).send('Farm already exists for this user');
-                }
-
-                const insertFarmQuery = 'INSERT INTO Farms (name, location, workingHours, ownerId) VALUES (?, ?, ?, ?)';
-                connection.query(insertFarmQuery, [name, location, workingHours, decodedToken.userId], (insertError) => {
-                    if (insertError) {
-                        console.error('Error inserting farm:', insertError);
-                        return res.status(500).send('An error occurred while creating the farm');
-                    }
-
-                    return res.status(201).send('Farm created successfully');
-                });
+        const { title, location, workingHours, username } = req.body;
+        const connection = await connectionProcess();
+        const getUserQuery = 'SELECT * FROM Users WHERE username = ?';
+        const user = await new Promise((resolve) => {
+            connection.query(getUserQuery, [username], (error, results) => {
+                resolve(results[0]);
             });
-        } catch (error) {
-            console.error('Error:', error);
-            return res.status(500).send('An error occurred');
+        });
+        if (!user) {
+            console.log('User not found');
+            return res.status(404).send('User not found');
         }
+        const userId = user.userId;
+        const checkFarmQuery = 'SELECT COUNT(*) as farmCount FROM Farms WHERE ownerId = ?';
+        connection.query(checkFarmQuery, [userId], (checkError, checkResults) => {
+            if (checkError) {
+                console.error('Error checking farm:', checkError);
+                return res.status(500).send('An error occurred while checking the farm');
+            }
+            if (parseInt(checkResults[0].farmCount) > 0) {
+                return res.status(400).send('Farm already exists for this user');
+            }
+            const insertFarmQuery = 'INSERT INTO Farms (title, location, workingHours, ownerId) VALUES (?, ?, ?, ?)';
+            connection.query(insertFarmQuery, [title, location, workingHours, userId], (insertError) => {
+                if (insertError) {
+                    console.error('Error inserting farm:', insertError);
+                    return res.status(500).send('An error occurred while creating the farm');
+                }
+                return res.status(201).send('Farm created successfully');
+            });
+        });
     }
 
-
     static async updateFarm(req, res) {
-        const {farmId, name, location, workingHours} = req.body;
+        const {farmId, title, location, workingHours} = req.body;
 
         try {
             const connection = await connectionProcess();
@@ -114,8 +117,8 @@ class FarmService {
                     }
 
                     // Update the farm details
-                    const updateFarmQuery = 'UPDATE Farms SET name = ?, location = ?, workingHours = ? WHERE farmId = ?';
-                    connection.query(updateFarmQuery, [name, location, workingHours, farmId], (updateError, updateResults) => {
+                    const updateFarmQuery = 'UPDATE Farms SET title = ?, location = ?, workingHours = ? WHERE farmId = ?';
+                    connection.query(updateFarmQuery, [title, location, workingHours, farmId], (updateError, updateResults) => {
                         if (updateError) {
                             console.error('Error executing query:', updateError);
                             return res.status(500).send('Database error');
