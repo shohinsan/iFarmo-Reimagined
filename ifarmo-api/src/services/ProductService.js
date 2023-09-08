@@ -35,8 +35,8 @@ class ProductService {
     }
 
 
-
     productId;
+
     static async getProductById(req, res) {
         const productId = req.params.productId;
         const connection = await connectionProcess();
@@ -155,6 +155,50 @@ class ProductService {
         }
         return res.status(200).json({message: 'Product deleted successfully'});
     }
+
+    // static async sendProductPushNotification(userId, productId) {
+    //     const userSubscriptions = await ProductService.getPushSubscriptionsByUser(userId);
+    //
+    //     async function sendPushNotification(subscription, title, message) {
+    //         const webPush = require('web-push');
+    //         const vapidKeys = {
+    //             publicKey: process.env.VAPID_PUBLIC_KEY,
+    //             privateKey: process.env.VAPID_PRIVATE_KEY,
+    //         };
+    //         webPush.setVapidDetails(
+    //             vapidKeys.publicKey,
+    //             vapidKeys.privateKey
+    //         );
+    //
+    //         try {
+    //             await webPush.sendNotification(subscription, JSON.stringify({ title, message }));
+    //         } catch (error) {
+    //             console.error('Error sending push notification:', error);
+    //         }
+    //     }
+    //
+    //     async function getFarmerPushSubscription(productId) {
+    //         const connection = await connectionProcess();
+    //         const query = 'SELECT subscription FROM Users WHERE userId = (SELECT farmerId FROM Products WHERE productId = ?)';
+    //         const [results] = await connection.promise().query(query, [productId]);
+    //         if (results.length === 0) {
+    //             return null;
+    //         }
+    //         return JSON.parse(results[0].subscription);
+    //     }
+    //
+    //     for (const subscription of userSubscriptions) {
+    //         // Send a notification to the user about their interest being sent to the farmer.
+    //         await sendPushNotification(subscription, 'Interest Sent', 'Your interest in a product has been sent to the farmer.');
+    //         // Now, you can also notify the farmer about the user's interest.
+    //         // Assuming you have a way to identify the relevant farmer for this product.
+    //         const farmerSubscription = await getFarmerPushSubscription(productId); // Replace with your logic to get the farmer's subscription
+    //         if (farmerSubscription) {
+    //             await sendPushNotification(farmerSubscription, 'Interest Received', 'A user is interested in your product.');
+    //         }
+    //     }
+    // }
+
 }
 
 module.exports = ProductService;

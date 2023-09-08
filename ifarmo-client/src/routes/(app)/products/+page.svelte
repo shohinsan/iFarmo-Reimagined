@@ -190,7 +190,8 @@
             {#each searchAndFilter as product}
                 <Center>
                     <div style="width: 340px; margin: auto">
-                        <Card shadow="sm" padding="lg">
+                        <Card
+                                shadow="sm" padding="lg" >
                             <Card.Section first padding="lg">
                                 <Image
                                         src="src/{product.image}"
@@ -203,7 +204,9 @@
                             </Group>
                             <Group override={{ lineHeight: 1.5 }}>
                                 <Stack>
-                                    <Text>Description: {product.description}</Text>
+                                    <Text override={{
+                                        height: '30px',
+                                    }}>Description: {product.description}</Text>
                                     <Text>Type: {product.type}</Text>
                                     <Text>Quantity: {product.quantity}</Text>
                                     <Text>Unit Type: {product.unitType}</Text>

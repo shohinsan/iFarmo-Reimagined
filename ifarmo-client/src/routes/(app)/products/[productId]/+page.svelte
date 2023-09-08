@@ -3,7 +3,7 @@
     import productLogo from "$assets/product.svg";
     import InputField from "$components/InputField.svelte";
     import {enhance} from "$app/forms";
-    import {Button, Card, Container, Image} from "@svelteuidev/core";
+    import {Anchor, Button, Card, Container, Image} from "@svelteuidev/core";
     import Delete from "$components/Delete.svelte";
 
     let showModal = false;
@@ -31,6 +31,8 @@
         userDataEditMode = false;
     }
 
+    console.log("userid in the product page is ", data.user);
+
 </script>
 
 <svelte:head>
@@ -52,7 +54,7 @@
                             height={160}
                             alt={product.title}/>
 
-<!--                    <img class="image-container" src={defaultImage} alt={product.title}/>-->
+                    <!--                    <img class="image-container" src={defaultImage} alt={product.title}/>-->
                     <h3 class="title">{product.title}</h3>
                     <p class="description">{product.description}</p>
                     <div class="details">
@@ -63,7 +65,7 @@
                         <p>City: {product.city}</p>
                     </div>
                 </div>
-                {#if data.user}
+                {#if data.user.userId === product.userId}
                     <Button
                             element="button"
                             variant="outline"
@@ -99,11 +101,20 @@
                 </form>
             {/if}
             <!----------------------------------------------->
-            {#if data.user}
+            {#if data.user.userId === product.userId}
                 <Delete centered overlayOpacity={0.55} overlayBlur={3}/>
             {/if}
             <!-------------------------------------------->
+            {#if data.user.role === "user" && data.user.userId !== product.userId}
+                <Button type="submit" >
+                    Interested
+                </Button>
+            {/if}
         </Card>
+
+
+
+
     </Container>
 
 </div>

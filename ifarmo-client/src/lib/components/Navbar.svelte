@@ -6,7 +6,7 @@
         Tooltip,
         ShellSection, Button, Group, Menu, Divider, Anchor,
     } from '@svelteuidev/core';
-    import {Sun, Moon, Gear, ChatBubble, Person, Width, SewingPin} from 'radix-icons-svelte';
+    import {Sun, Moon, Gear, Bell, Person, Width, SewingPin} from 'radix-icons-svelte';
     import {hotkey, useOs} from '@svelteuidev/composables';
     import {page} from "$app/stores";
 
@@ -78,6 +78,7 @@
         },
     ];
 
+    let notificationsOpened = true;
 </script>
 
 <nav>
@@ -85,22 +86,41 @@
         <ShellSection grow>
             <Anchor underline={false} href="/map">
                 {#if $location}
-                <Button>
-                    <SewingPin slot="leftIcon" />
+                    <Button>
+                        <SewingPin slot="leftIcon"/>
                         <span class="link-text">{$location.city}</span>
-                </Button>
+                    </Button>
                 {/if}
             </Anchor>
         </ShellSection>
-        <Tooltip label={`${mod} + J`}>
-            <ActionIcon variant="default" on:click={toggle} size={35} use={[[hotkey, [['mod+J', toggle]]]]}>
-                {#if $colorScheme === "dark"}
-                    <Moon/>
-                {:else}
-                    <Sun/>
-                {/if}
-            </ActionIcon>
-        </Tooltip>
+        <Group>
+            <Menu>
+                <Button slot="control">
+                    <Bell size={16} />
+                </Button>
+                <Menu.Label>Notifications</Menu.Label>
+                <Menu.Item override={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'normal',
+                    wordBreak: 'break-all',
+                    maxWidth: '200px',
+                    minHeight: '5em',
+                    }}>
+                    Settingsasdfioadsjfopadsjfopi[adsjfadsjfop]adsjfop[ads
+                </Menu.Item>
+            </Menu>
+
+            <Tooltip label={`${mod} + J`}>
+                <ActionIcon variant="default" on:click={toggle} size={35} use={[[hotkey, [['mod+J', toggle]]]]}>
+                    {#if $colorScheme === "dark"}
+                        <Moon/>
+                    {:else}
+                        <Sun/>
+                    {/if}
+                </ActionIcon>
+            </Tooltip>
+        </Group>
     </div>
     <div class="main-level">
 
