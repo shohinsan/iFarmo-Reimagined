@@ -3,7 +3,7 @@
     import InputField from '$components/InputField.svelte';
     import {enhance} from '$app/forms';
     import RoleSelect from "$components/Select.svelte";
-    import {Button, Card} from "@svelteuidev/core";
+    import {Anchor, Button, Card} from "@svelteuidev/core";
     import Delete from "$components/Delete.svelte";
     let userRoleOptions = ['user', 'worker', 'farmer'];
     let credentials = $page.data.credentials;
@@ -43,12 +43,16 @@
             />
             <RoleSelect bind:value={credentials.role} name="role" options={userRoleOptions}/>
             <div class="button-content">
-                <Button element="a" href="{credentials.username}" variant="outline" color="red">
-                    Cancel
-                </Button>
-                <Button element="button" variant="outline" color="red">
-                    Update an account
-                </Button>
+                <Anchor underline={false} href="{credentials.username}">
+                    <Button ripple color="red">
+                        Cancel
+                    </Button>
+                </Anchor>
+                <Anchor underline={false} href="{credentials.username}">
+                    <Button ripple variant='gradient' gradient={{from: 'teal', to: 'green', deg: 105}}>
+                        Save
+                    </Button>
+                </Anchor>
             </div>
         </form>
         <div class="delete-button-field">

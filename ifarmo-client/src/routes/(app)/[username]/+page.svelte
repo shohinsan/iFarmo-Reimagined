@@ -1,6 +1,6 @@
 <script>
     import {page} from '$app/stores';
-    import {Button, Container} from "@svelteuidev/core";
+    import {Anchor, Button, Container} from "@svelteuidev/core";
 
 
     let showModal = false;
@@ -9,20 +9,7 @@
     let cred = $page.data.profile.user;
     let far = $page.data.profile.farms;
     let isFarmerWithFarm = cred.role === "farmer" && far.length > 0;
-
-
     export let data;
-
-    let userDataEditMode = false;
-
-    function editUserData() {
-        userDataEditMode = true;
-    }
-
-    function cancelEdit() {
-        userDataEditMode = false;
-    }
-
 </script>
 <svelte:head>
     <title>iFarmo</title>
@@ -31,8 +18,7 @@
 
 </div>
 <div class="content">
-    <Container override={{bc: 'AliceBlue'}}>
-
+    <Container>
         {#if profile}
             <div class="profile-card">
                 <img src="https://static.productionready.io/images/smiley-cyrus.jpg" alt="Profile Picture">
@@ -49,16 +35,18 @@
                     {#if isFarmerWithFarm}
                         Owner: {far[0].title} at {far[0].location}
                     {:else}
-                        Individual farmer
+                        Gardener
                     {/if}
                     {#if cred.role === "worker"}Worker{/if}
                     {#if cred.role === "user"}User{/if}
                 </p>
                 {#if data.user}
                     <div class="button-section">
-                        <Button element="a" href="/settings" variant="outline" color="red" on:click={editUserData}>
-                            Edit User Information
-                        </Button>
+                        <Anchor underline={false} href="/settings">
+                            <Button ripple variant='gradient' gradient={{from: 'orange', to: 'red', deg: 45}}>
+                                Edit User Information
+                            </Button>
+                        </Anchor>
                     </div>
                 {/if}
             </div>
@@ -74,14 +62,12 @@
 <style lang="scss">
 
   .content {
-    padding-top: 150px;
+    padding-top: 120px;
   }
 
   .profile-card {
-    padding: 20px;
-    background-color: lightgrey;
+    padding: 50px 50px 1500px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
     text-align: center;
   }
 
@@ -110,6 +96,8 @@
 
   .button-section {
     padding-top: 20px;
+    display: flex;
+    justify-content: center;
   }
 
   .user-content {

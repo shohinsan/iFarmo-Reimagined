@@ -29,9 +29,14 @@
 
 <SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver={$colorScheme}>
     <Navbar data={data}/>
+    <div class="background">
         <slot data={data}/>
+    </div>
+
     <Footer/>
 </SvelteUIProvider>
 
 <style>
+    .background {
+        background: var(--bg-color);}
 </style>

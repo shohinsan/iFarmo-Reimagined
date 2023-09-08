@@ -6,6 +6,7 @@ const API_ENDPOINT = "http://localhost:8000/api/product";
 export const actions: Actions = {
     create: async ({ request, cookies, fetch }) => {
         const authToken = cookies.get("access-token");
+        // @ts-ignore
         const decoded = jwt.verify(authToken, TOKEN_SECRET) as JwtPayload;
         const data = await request.formData();
         const title = data.get("title") as string;
