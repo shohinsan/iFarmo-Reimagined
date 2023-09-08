@@ -14,6 +14,8 @@
     import {quintInOut} from 'svelte/easing';
     import {Rocket} from "radix-icons-svelte";
     import {enhance} from "$app/forms";
+    import type {ActionData} from "./$types";
+    export let form: ActionData
 
     interface $$Props extends Partial<ModalProps> {
         withOpenButton?: boolean;
@@ -42,6 +44,7 @@
     let cityValue;
 
     function submitForm() {
+        console.log('Form submitted')
         opened = false;
         notificationOpened = true;
         setTimeout(() => (notificationOpened = false), 4000);

@@ -8,6 +8,8 @@
     let profile = $page.data.profile;
     let cred = $page.data.profile.user;
     let far = $page.data.profile.farms;
+    let isFarmerWithFarm = cred.role === "farmer" && far.length > 0;
+
 
     export let data;
 
@@ -44,7 +46,11 @@
                     day: 'numeric'
                 })}</p>
                 <p class="profile-owner">
-                    {#if cred.role === "farmer"}Owner: {far[0].title} at {far[0].location}{/if}
+                    {#if isFarmerWithFarm}
+                        Owner: {far[0].title} at {far[0].location}
+                    {:else}
+                        Individual farmer
+                    {/if}
                     {#if cred.role === "worker"}Worker{/if}
                     {#if cred.role === "user"}User{/if}
                 </p>
