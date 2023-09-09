@@ -34,7 +34,7 @@
                 <p class="profile-owner">
                     {#if isFarmerWithFarm}
                         Owner: {far[0].title} at {far[0].location}
-                    {:else}
+                    {:else if cred.role === "farmer"}
                         Gardener
                     {/if}
                     {#if cred.role === "worker"}Worker{/if}

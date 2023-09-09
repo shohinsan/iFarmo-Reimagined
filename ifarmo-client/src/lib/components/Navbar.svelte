@@ -9,12 +9,14 @@
     import {Sun, Moon, Gear, Bell, Person, Width, SewingPin} from 'radix-icons-svelte';
     import {hotkey, useOs} from '@svelteuidev/composables';
     import {page} from "$app/stores";
+    import {enhance} from "$app/forms";
 
     import type {PageData} from './$types';
     import location from "$helpers/location";
 
     export let data: PageData;
-    let user = data.user;
+    $: user = data.user;
+
     let credentials: any;
     $: {
         credentials = $page.data.credentials;
@@ -153,7 +155,7 @@
                         Settings
                     </Menu.Item>
                     <Divider/>
-                    <form method="POST" action="/?/logout">
+                    <form method="POST" action="/?/logout" use:enhance>
                         <Menu.Item type="submit" color="red" icon={Width}>
                             Logout
                         </Menu.Item>

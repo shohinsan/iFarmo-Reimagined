@@ -79,9 +79,7 @@ class ProductService {
             }
             results[0].farmCount = parseInt(results[0].farmCount);
             const farmCount = results[0].farmCount;
-            if (farmCount === 0) {
-                return res.status(400).send('Farm does not exist for this user');
-            }
+
             const insertProductQuery = `
                 INSERT INTO Products (title, type, description, quantity, unitType, price, city, userId)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -135,7 +133,6 @@ class ProductService {
 
     static async deleteProduct(req, res) {
         const productId = req.body.productId;
-        console.log(productId)
         const connection = await connectionProcess();
         const token = req.cookies['access-token'];
         if (!token) {
@@ -145,9 +142,6 @@ class ProductService {
         const farmCountQuery = 'SELECT COUNT(*) as farmCount FROM Farms WHERE ownerId = ?';
         const [farmCountResult] = await connection.promise().query(farmCountQuery, [decodedToken.userId]);
         const farmCount = parseInt(farmCountResult[0].farmCount);
-        if (farmCount === 0) {
-            return res.status(400).json({error: 'Farm does not exist for this user'});
-        }
         const deleteProductQuery = 'DELETE FROM Products WHERE productId = ?';
         const [deleteResult] = await connection.promise().query(deleteProductQuery, [productId]);
         if (deleteResult.affectedRows === 0) {

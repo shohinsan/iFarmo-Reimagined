@@ -17,17 +17,23 @@ export const actions = {
                 cookies.delete('access-token', {path: '/'});
                 throw redirect(303, '/');
             }
+            console.log(response)
         }
     },
+
+
     update: async ({request, cookies, fetch}) => {
         const authToken = cookies.get('access-token');
         const data = await request.formData();
+        const name = data.get('name') as string;
+        const username = data.get('username') as string;
+        const email = data.get('email') as string;
+        const role = data.get('role') as string;
+
         const updateProfileData = {
-            name: data.get('name'),
-            username: data.get('username'),
-            email: data.get('email'),
-            role: data.get('role')
+           name, username, email, role
         };
+        console.log(updateProfileData)
         if (authToken) {
             await fetch(`${API_ENDPOINT}/update`, {
                 method: 'PUT',
