@@ -186,15 +186,17 @@
 </nav>
 
 <style lang="scss">
-
-
   nav {
     z-index: 10;
+    position: sticky;
+    top: 0;
     background-color: white;
-    position: fixed;
     width: 100%;
     font-family: 'MS100', sans-serif;
   }
+
+
+
 
 
   .location {
@@ -255,17 +257,14 @@
 
       li {
         list-style: none;
-
         a {
           color: var(--text-color);
           text-decoration: none;
           transition: 0.2s;
           padding: 12px;
-
           &:hover {
             color: var(--text-color);
           }
-
           &.active {
             font-family: 'MS500', sans-serif;
             color: var(--text-color);
@@ -281,7 +280,6 @@
       @include breakpoint.up('md') {
         display: none;
       }
-
       .menu-button {
         padding: 0.5rem 1rem;
         cursor: pointer;
@@ -291,79 +289,16 @@
         background-color: transparent;
         border: none;
         border-radius: 5px;
-
         &:hover,
         &:focus {
           background-color: rgba(255, 255, 255, 0.1);
         }
-
         &:active {
           background-color: rgba(255, 255, 255, 0.2);
         }
       }
     }
 
-
-    // -------------------------------------
-    .navDrops {
-      border-radius: 5px;
-
-      img {
-        vertical-align: middle;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-      }
-    }
-
-
-    // ----
-    .dropdown {
-      position: relative;
-      display: inline-block;
-
-      &:hover .dropdown-content {
-        display: block;
-      }
-    }
-
-    // ----
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      right: 0;
-      // ----
-      a {
-        color: black;
-        width: 100%;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        // ----
-        &:hover {
-          color: limegreen;
-        }
-      }
-
-      .button {
-        padding-top: 5px;
-        height: 3rem;
-        width: 100%;
-        display: block;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-        border: none;
-        text-align: left;
-
-        &:hover {
-          background-color: red;
-        }
-      }
-    }
   }
 
   // -------------------------------------
@@ -380,26 +315,21 @@
     @include breakpoint.up('md') {
       display: none;
     }
-
     ul {
       margin: 0;
       padding: 0;
-
       font-size: 30px;
       list-style: none;
       width: 100%;
       max-width: 100%;
       border-radius: 5px;
       background-color: var(--bg-color);
-
       li {
         width: 100%;
         transition: 0.1s;
-
         &:hover {
           background-color: rgba(0, 0, 0, 0.1);
         }
-
         a {
           display: inline-block;
           padding: 0.5rem 1rem;
@@ -408,7 +338,6 @@
           color: var(--text-color);
           text-decoration: none;
           transition: 0.2s;
-
           &.active {
             color: var(--text-color);
             text-shadow: 0 0 20px var(--text-color);
@@ -420,12 +349,10 @@
     .auth-section {
       display: flex;
       gap: 1rem;
-
       a {
         color: #555;
         text-decoration: none;
         transition: color 0.3s ease;
-
         &:hover {
           color: limegreen;
         }

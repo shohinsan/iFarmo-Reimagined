@@ -39,9 +39,9 @@
 
 <div class="content">
     <Card type="submit"
-            override={{
-        padding: '40px 50px 50rem 50px',
-        width: '100%',
+          override={{
+              padding: '35px 50px 50rem 50px',
+              width: '100%',
         backgroundColor: '#FAF9F6',
     }}>
         <Divider label='Personal Information' labelPosition='left' />
@@ -124,13 +124,5 @@
     align-items: center;
     justify-content: center;
   }
-
-  .delete-button-field {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-
-
 
 </style>

@@ -304,6 +304,6 @@
 
 <style lang="scss">
   .content {
-    padding-top: 200px;
+    padding-top: 10px;
   }
 </style>

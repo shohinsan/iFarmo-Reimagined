@@ -1,5 +1,5 @@
 <script>
-    import {Anchor, Card, Container, Grid, Stack} from "@svelteuidev/core";
+    import {Card, Container, Grid, Stack} from "@svelteuidev/core";
     import {page} from "$app/stores";
 
     let settingsItems = [
@@ -10,7 +10,7 @@
 
 <Container>
     <Grid>
-        <Grid.Col xs={12} md={4} override={{ paddingTop: '7rem' }}>
+        <Grid.Col xs={12} md={4}>
             <Card override={{
                 width: '100%',
                 height: '100%',
@@ -42,12 +42,6 @@
 </Container>
 
 <style lang="scss">
-  .slot-height {
-    @include breakpoint.up('lg') {
-      padding-top: 105px;
-    }
-  }
-
   a {
     text-decoration: none;
     color: #333;

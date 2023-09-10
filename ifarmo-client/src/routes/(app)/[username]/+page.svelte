@@ -60,11 +60,6 @@
 </div>
 
 <style lang="scss">
-
-  .content {
-    padding-top: 120px;
-  }
-
   .profile-card {
     padding: 50px 50px 1500px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

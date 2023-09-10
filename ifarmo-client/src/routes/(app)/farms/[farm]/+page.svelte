@@ -35,10 +35,4 @@
 </div>
 
 <style lang="scss">
-
-  .content {
-    padding-top: 150px;
-  }
-
-
 </style>

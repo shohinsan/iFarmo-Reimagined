@@ -121,8 +121,6 @@
 <style>
 
     .content {
-        padding-top: 150px;
-        padding-bottom: 150px;
         display: flex;
         flex-direction: column;
         align-items: center;

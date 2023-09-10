@@ -26,7 +26,7 @@
 <div class="content">
     <Card
             override={{
-        padding: '40px 50px 50rem 50px',
+        padding: '35px 50px 50rem 50px',
         width: '100%',
         backgroundColor: '#FAF9F6',
     }}>
