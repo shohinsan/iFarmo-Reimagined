@@ -32,8 +32,8 @@
 		"vite": "^4.4.9"
 	},
 	"type": "module",
-	"platform": "node",
 	"dependencies": {
+		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@svelteuidev/composables": "^0.15.3",
 		"@svelteuidev/core": "^0.15.3",
 		"is-safari": "^1.0.0",
