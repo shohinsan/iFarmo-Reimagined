@@ -33,6 +33,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"crypto": "^1.0.1",
+		"stream": "^0.0.2",
+		"util": "^0.11.1",
+		"buffer": "^5.7.1",
 		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@svelteuidev/composables": "^0.15.3",
 		"@svelteuidev/core": "^0.15.3",
