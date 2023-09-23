@@ -1,7 +1,7 @@
 import {type Actions, redirect} from "@sveltejs/kit";
 
 
-const USER_API_ENDPOINT = "http://localhost:8000/api/user";
+const USER_API_ENDPOINT = "http://172.30.0.2:8000/api/user";
 
 export const actions = {
     change_password: async ({request, cookies, fetch}) => {
@@ -21,7 +21,6 @@ export const actions = {
                 credentials: 'include',
                 body: JSON.stringify(updatePasswordData),
             });
-            console.log("Password changed");
         }
         throw redirect(303, '/settings/password');
     },

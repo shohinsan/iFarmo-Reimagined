@@ -8,7 +8,7 @@ function messenger(init = true) {
     return readable([], (set, update,) => {
         if (!init) return;
 
-        chatSocket = new WebSocket("ws://localhost:8000/chat");
+        chatSocket = new WebSocket("ws://172.30.0.2:8000/chat");
 
         chatSocket.addEventListener("open", (event) => {
             console.log("Chat socket opened");

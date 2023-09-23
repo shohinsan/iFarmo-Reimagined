@@ -1,7 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 import { redirect } from "@sveltejs/kit";
 
-const FARM_API_ENDPOINT = "http://localhost:8000/api/farm";
+const FARM_API_ENDPOINT = "http://172.30.0.2:8000/api/farm";
 
 export const load: LayoutServerLoad = async ({ fetch, parent }) => {
     await parent()

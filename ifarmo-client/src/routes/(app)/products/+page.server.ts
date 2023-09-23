@@ -1,7 +1,7 @@
 import { type Actions, redirect } from "@sveltejs/kit";
 import { TOKEN_SECRET } from "$env/static/private";
 import { jwtVerify } from "jose";
-const API_ENDPOINT = "http://localhost:8000/api/product";
+const API_ENDPOINT = "http://172.30.0.2:8000/api/product";
 export const actions: Actions = {
     create: async ({ request, cookies, fetch }) => {
         const authToken = cookies.get("access-token");
