@@ -1,5 +1,4 @@
 import {fail, type Actions, redirect} from '@sveltejs/kit';
-import jwt from "jsonwebtoken";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { TOKEN_SECRET } from "$env/static/private";
