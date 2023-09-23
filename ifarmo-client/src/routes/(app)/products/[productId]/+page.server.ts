@@ -1,5 +1,4 @@
 import {type Actions, redirect} from "@sveltejs/kit";
-import jwt from "jsonwebtoken";
 import {getServiceWorkerWebPushConfig} from "../../../../sw";
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
