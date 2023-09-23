@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import {redirect, type HandleServerError} from '@sveltejs/kit';
 import { prepareStylesSSR } from '@svelteuidev/core';
-import type {JwtPayload} from "jsonwebtoken";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { TOKEN_SECRET } from "$env/static/private";
 import { sequence } from '@sveltejs/kit/hooks';
+import {jwtVerify} from "jose";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export async function handleCommunication({event, resolve}) {
@@ -13,11 +13,16 @@ export async function handleCommunication({event, resolve}) {
     // console.log('auth token in hooks', authToken)
     let data = null;
     if (authToken) {
-        const decoded = jwt.verify(authToken, TOKEN_SECRET) as JwtPayload;
-        // console.log('decoded in hooks', decoded)
+        const tokenSecret = new TextEncoder().encode(process.env.TOKEN_SECRET);
+
+        const decoded = await jwtVerify(
+            authToken, tokenSecret
+        );
+        const userId = decoded.payload.userId
+        const role = decoded.payload.role
         data = {
-            userId: decoded.userId,
-            role: decoded.role,
+            userId: userId,
+            role: role,
         };
         // console.log('data in hooks', data)
         if (!['/', '/login', '/register'].includes(event.path) && !data) {

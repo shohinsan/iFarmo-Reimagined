@@ -37,7 +37,7 @@
 		"@svelteuidev/composables": "^0.15.3",
 		"@svelteuidev/core": "^0.15.3",
 		"is-safari": "^1.0.0",
-		"jsonwebtoken": "^9.0.2",
+		"jose": "^4.14.6",
 		"leaflet": "^1.9.4",
 		"radix-icons-svelte": "^1.2.1",
 		"sass": "^1.68.0",

@@ -11,9 +11,9 @@
         return new Promise<void>((resolve) => {
             const image = document.querySelector<HTMLElement>(`a[href="${navigation.to?.url.pathname}"] *`);
             const vtn = image?.dataset.vtn;
-            console.log('Navigation occurred:', navigation.to?.url.pathname);
-            console.log('Image:', image);
-            console.log('vtn:', vtn);
+            // console.log('Navigation occurred:', navigation.to?.url.pathname);
+            // console.log('Image:', image);
+            // console.log('vtn:', vtn);
             if (image && vtn) {
                 image.style.setProperty('view-transition-name', vtn);
             }
@@ -29,14 +29,17 @@
 
 <SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver={$colorScheme}>
     <Navbar data={data}/>
-    <div class="background">
+    <main class="background">
         <slot data={data}/>
-    </div>
+    </main>
 
     <Footer/>
 </SvelteUIProvider>
 
 <style>
     .background {
-        background: var(--bg-color);}
+        background: var(--bg-color);
+
+    }
+
 </style>

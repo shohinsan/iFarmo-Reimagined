@@ -1,8 +1,8 @@
 import { fail, type Actions, redirect } from '@sveltejs/kit';
-import jwt from "jsonwebtoken";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { TOKEN_SECRET } from "$env/static/private";
+import {SignJWT} from "jose";
 const API_ENDPOINT = "http://localhost:8000/api/auth";
 
 export const actions = {
@@ -16,10 +16,6 @@ export const actions = {
             return fail(400, { usernamePasswordRequired: "Username and password are required." });
         }
 
-        // if (password !== confirm_password) {
-        //     return fail(400, { passwordMismatch: "Passwords do not match." });
-        // }
-
         const response = await fetch(`${API_ENDPOINT}/login`, {
             method: 'POST',
             headers: {
@@ -28,12 +24,23 @@ export const actions = {
             credentials: 'include',
             body: JSON.stringify({ username, password }),
         });
-
+        
         const res = await response.json();
-        const userId = res.user.userId;
-        const role = res.user.role;
-        const payload = { userId, role };
-        const token = jwt.sign(payload, TOKEN_SECRET);
+
+        const tokenSecret = new TextEncoder().encode(process.env.TOKEN_SECRET);
+
+        const token = await new SignJWT({
+            userId: res.user.userId,
+            username: res.user.username,
+            role: res.user.role,
+        })
+            .setProtectedHeader({ alg: 'HS256', typ: 'JWE'})
+            .setIssuedAt()
+            .setExpirationTime('1w')
+            .setJti('1a2b-3c4d-5e6f-7g8h')
+            .setSubject('auth')
+            .sign(tokenSecret);
+
         cookies.set('access-token', token, {
             path: '/',
             httpOnly: true,
@@ -41,6 +48,7 @@ export const actions = {
             maxAge: 24 * 60 * 60,
             secure: false,
         });
+
         throw redirect(303, '/');
     },
 } satisfies Actions;
