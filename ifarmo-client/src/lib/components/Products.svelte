@@ -7,7 +7,7 @@
         Stack,
         Space,
         Notification,
-        Affix, ActionIcon, Textarea, NativeSelect
+        Affix, ActionIcon, Textarea, NativeSelect, Divider
     } from '@svelteuidev/core';
     import type {ModalProps} from '@svelteuidev/core';
     import {fly} from 'svelte/transition';
@@ -49,6 +49,19 @@
         notificationOpened = true;
         setTimeout(() => (notificationOpened = false), 4000);
     }
+
+    let files;
+
+    $: if (files) {
+        // Note that `files` is of type `FileList`, not an Array:
+        // https://developer.mozilla.org/en-US/docs/Web/API/FileList
+        console.log(files);
+
+        for (const file of files) {
+            console.log(`${file.name}: ${file.size} bytes`);
+        }
+    }
+
 </script>
 
 <Modal type="submit" {opened} on:close={closeModal} title="Post new product" {...$$restProps}>
@@ -59,7 +72,6 @@
               }}>
             <Stack>
                 <TextInput name="title" bind:value={titleValue} placeholder={title} label={title}/>
-                <!--        <TextInput bind:value={typeValue} placeholder={type} label={type}/>-->
                 <NativeSelect
                         name="type"
                         data={['None','Fruit', 'Vegetable', 'Grains', 'Nuts', 'Meat', 'Dairy', 'Baked goods', 'Plants', 'Other']}
@@ -74,7 +86,6 @@
                         bind:value={quantityValue} placeholder={quantity} label={quantity}/>
                 <TextInput name="price"
                         bind:value={priceValue} placeholder={price} label={price}/>
-                <!--        <TextInput bind:value={unitTypeValue} placeholder={unitType} label={unitType}/>-->
                 <NativeSelect name="unitType"
                         data={['None','piece', 'pack', 'lb', 'kg', 'g', 'gal', 'litre', 'ml', 'oz']}
                         bind:value={unitTypeValue} placeholder={unitType} label={unitType}>
@@ -82,6 +93,16 @@
                 <TextInput name="city"
                         bind:value={cityValue} placeholder={city} label={city}/>
 
+                <Divider />
+
+                <div class="uplprod">
+                    <label for="upload_products" class="custom-file-upload">
+                        <i class="fa fa-cloud-upload"></i> Upload Excel File (dev)
+                    </label>
+                    <input accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="upload_products" name="upload_products" type="file" />
+                </div>
+
+                <Divider />
             </Stack>
             <Space h="lg"/>
             <Group position="right">
@@ -126,3 +147,37 @@
         </div>
     </Affix>
 {/if}
+
+
+<style>
+    .uplprod {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .custom-file-upload {
+        width: 100%;
+        max-width: 375px;
+        height: 50px;
+        display: flex; /* Add this */
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: 2px solid #ccc;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #f8f8f8;
+        color: #333;
+        border-radius: 4px;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #e0e0e0;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+</style>
+

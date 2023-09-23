@@ -2,7 +2,6 @@
     import {page} from '$app/stores';
     import {Anchor, Button, Container} from "@svelteuidev/core";
 
-
     let showModal = false;
     let userRoleOptions = ['user', 'worker', 'farmer', 'gardener'];
     let profile = $page.data.profile;
@@ -49,6 +48,16 @@
                         </Anchor>
                     </div>
                 {/if}
+                <!--Need this later -->
+                <!--{#if data.user.userId !== cred.userId}-->
+                <!--    <div class="button-section">-->
+                <!--        <Anchor underline={false} href="/{cred.username}/communication">-->
+                <!--            <Button ripple variant='gradient' gradient={{from: 'orange', to: 'red', deg: 45}}>-->
+                <!--                Send a Message-->
+                <!--            </Button>-->
+                <!--        </Anchor>-->
+                <!--    </div>-->
+                <!--{/if}-->
             </div>
         {/if}
     </Container>

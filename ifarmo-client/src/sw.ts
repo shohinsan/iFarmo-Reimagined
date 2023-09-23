@@ -1,4 +1,4 @@
-import {PUBLIC_VAPID_PUBLIC_KEY} from '$env/static/public';
+import {VAPID_PUBLIC_KEY} from '$env/static/private';
 const convertToBase64 = (str: string | undefined) => {
     const utf8Encoder = new TextEncoder();
     const data = utf8Encoder.encode(str);
@@ -16,5 +16,6 @@ const base64ArrayBuffer = (arrayBuffer: Iterable<number>) => {
 };
 export const getServiceWorkerWebPushConfig = () => ({
     userVisibleOnly: true,
-    applicationServerKey: convertToBase64(PUBLIC_VAPID_PUBLIC_KEY)
-});
+    applicationServerKey: convertToBase64(VAPID_PUBLIC_KEY)
+    }
+);

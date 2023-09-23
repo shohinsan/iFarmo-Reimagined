@@ -55,11 +55,14 @@
             <div style="width: 280px; margin: auto">
                 <Card shadow="sm" padding="xl">
                     <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
+                        <Image override={{
+                            objectFit: 'cover',
+                            marginBottom: '$20',
+                        }} src="src/assets/svelte.svg"
+                               height={100}
                                 alt="###"/>
                     </Card.Section>
+
                     <Stack>
                         <Text weight={500}>Quality</Text>
                         <Text>We've established partnerships with the finest farms and stores to guarantee that the

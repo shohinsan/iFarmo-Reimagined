@@ -1,6 +1,10 @@
 import {type Actions, redirect} from "@sveltejs/kit";
+import jwt from "jsonwebtoken";
+import {getServiceWorkerWebPushConfig} from "../../../../sw";
 
+const TOKEN_SECRET = process.env.TOKEN_SECRET;
 const API_ENDPOINT = "http://localhost:8000/api/product";
+const NOTIFICATION_API_ENDPOINT = "http://localhost:8000/api/notification";
 
 export const actions = {
     delete: async ({cookies, fetch, params}) => {
@@ -44,20 +48,60 @@ export const actions = {
         }
         throw redirect(303, `/products/${productId}`);
     },
-    // pushNotify: async ({cookies, fetch, params}) => {
-    //     const authToken = cookies.get('access-token');
-    //     const productId = params.productId;
-    //     if (authToken) {
-    //         const productId = params.productId;
-    //         const response = await fetch(`${API_ENDPOINT}/push-notify`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             credentials: 'include',
-    //             body: JSON.stringify({productId}),
-    //         });
-    //     }
-    //     throw redirect(303, `/products/${productId}`);
-    // }
+    send_notification: async ({ request, cookies, fetch }) => {
+        const authToken = cookies.get('access-token');
+        if (authToken) {
+            if (typeof navigator !== 'undefined') {
+                const serviceWorkerRegistration = await navigator.serviceWorker.getRegistration();
+                console.log("serviceWorkerRegistration", serviceWorkerRegistration);
+                const webPushConfig = getServiceWorkerWebPushConfig();
+                console.log("webPushConfig", webPushConfig);
+
+                if (serviceWorkerRegistration) {
+                    const pushSubscription = await serviceWorkerRegistration.pushManager.subscribe(webPushConfig);
+                    console.log("pushSubscription", pushSubscription);
+
+                    const pushSubscriptionPayload = JSON.stringify(pushSubscription);
+                    console.log("pushSubscriptionPayload", pushSubscriptionPayload);
+                }
+            }
+
+            await fetch(`${NOTIFICATION_API_ENDPOINT}/send`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+        }
+        console.log('send_notifications');
+        throw redirect(303, `/products`);
+    },
+
+
+
+    register_notification: async ({request,cookies, fetch}) => {
+        const payload = {
+            title: 'Welcome to Svelte UI Dev',
+            body: 'You will receive notifications from Svelte UI Dev',
+            icon: '/favicon.ico',
+        }
+
+        const delay = 1000 * 60 * 60 * 24 * 7;
+        const ttl = 60 * 60 * 24 * 7;
+
+        const authToken = cookies.get('access-token');
+        if (authToken) {
+            await fetch(`${NOTIFICATION_API_ENDPOINT}/register`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({payload, delay, ttl}),
+            });
+        }
+        console.log('register_notifications')
+        throw redirect(303, '/products');
+    }
 } satisfies Actions;

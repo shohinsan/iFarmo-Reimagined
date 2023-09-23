@@ -4,7 +4,7 @@
         ActionIcon,
         Burger,
         Tooltip,
-        ShellSection, Button, Group, Menu, Divider, Anchor,
+        ShellSection, Button, Group, Menu, Divider, Anchor
     } from '@svelteuidev/core';
     import {Sun, Moon, Gear, Bell, Person, Width, SewingPin} from 'radix-icons-svelte';
     import {hotkey, useOs} from '@svelteuidev/composables';
@@ -81,6 +81,7 @@
     ];
 
     let notificationsOpened = true;
+
 </script>
 
 <nav>
@@ -148,6 +149,11 @@
                             root="a" href="/{$page.data.credentials.username}"
                             icon={Person}>
                         Profile
+                    </Menu.Item>
+                    <Menu.Item
+                            root="a" href="/chat"
+                            icon={Person}>
+                        Chat
                     </Menu.Item>
                     <Menu.Item
                             root="a" href="/settings"

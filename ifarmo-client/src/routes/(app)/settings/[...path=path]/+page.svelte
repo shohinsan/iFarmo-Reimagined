@@ -2,8 +2,12 @@
     import {page} from '$app/stores';
     import {enhance} from '$app/forms';
     import {fly} from 'svelte/transition';
+    import {browser} from '$app/environment';
+
+    const API_ENDPOINT = "http://localhost:8000/api/notification";
 
     import type {ActionData} from "./$types";
+
     let form: ActionData
     import {
         Affix,
@@ -13,23 +17,46 @@
         Divider,
         Group,
         NativeSelect,
-        Notification,
+        Notification, Switch, Text,
         TextInput
     } from "@svelteuidev/core";
     import Delete from "$components/Delete.svelte";
     import {quintInOut} from "svelte/easing";
+
     let userRoleOptions = ['user', 'worker', 'farmer'];
 
     $: credentials = $page.data.credentials;
 
     let notificationOpened = false;
     export let formIsSubmitted = false;
+
     function submitForm() {
         console.log('Form submitted')
         formIsSubmitted = false;
         notificationOpened = true;
         setTimeout(() => (notificationOpened = false), 4000);
     }
+
+    let checkedNotif: any =  browser ? (<any>window).Notification.permission === 'granted' : false;
+
+    async function enableBrowserNotification() {
+        if ((<any>window).Notification && (<any>window).Notification.permission === 'granted') {
+            checkedNotif = true;
+        } else if ((<any>window).Notification && (<any>window).Notification.permission === 'denied') {
+            checkedNotif = false;
+        } else if ((<any>window).Notification) {
+            const permission = await (<any>window).Notification.requestPermission();
+            checkedNotif = permission === 'granted';
+        } else {
+            checkedNotif = false;
+        }
+    }
+    if (browser) {
+        console.log("Notification permission is", ((<any>window).Notification.permission))
+    }
+
+
+
 
 </script>
 
@@ -44,7 +71,7 @@
               width: '100%',
         backgroundColor: '#FAF9F6',
     }}>
-        <Divider label='Personal Information' labelPosition='left' />
+        <Divider label='Personal Information' labelPosition='left'/>
         <p>This information is intended to be displayed publicly</p>
         <form action="?/update"
               method="POST"
@@ -96,9 +123,43 @@
             </Group>
         </form>
 
-        <Divider label='Delete account' labelPosition='left' />
-        <p>No longer want to use our platform? You can delete your account here. This action is not reversible. All information relation to this account will be deleted permanently</p>
-        <Delete />
+
+        <Divider
+                override={{
+                    marginTop: '40px',
+                }}
+                label='Security' labelPosition='left'/>
+
+
+        <Group position="apart">
+            <Text>Enable browser notifications</Text>
+
+            <Switch
+                    checked={checkedNotif}
+                    size='md'
+                    onLabel="ON"
+                    offLabel="OFF"
+                    id="Notificationclick"
+                    on:click={enableBrowserNotification}
+            />
+        </Group>
+
+        <br />
+        <Text override={{
+            color: 'red',
+        }}>Note: location is disabled via Browser settings</Text>
+
+
+
+
+        <Divider
+                override={{
+                    marginTop: '40px',
+                }}
+                label='Delete account' labelPosition='left'/>
+        <p>No longer want to use our platform? You can delete your account here. This action is not reversible. All
+            information relation to this account will be deleted permanently</p>
+        <Delete/>
     </Card>
 
 
