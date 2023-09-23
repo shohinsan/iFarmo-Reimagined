@@ -1,13 +1,16 @@
 import { type Actions, redirect } from "@sveltejs/kit";
-import jwt from "jsonwebtoken";
 import { TOKEN_SECRET } from "$env/static/private";
-import type { JwtPayload } from "jsonwebtoken";
+import { jwtVerify } from "jose";
 const API_ENDPOINT = "http://localhost:8000/api/product";
 export const actions: Actions = {
     create: async ({ request, cookies, fetch }) => {
         const authToken = cookies.get("access-token");
+        if (!authToken) {
+            throw redirect(303, "/login");
+        }
         // @ts-ignore
-        const decoded = jwt.verify(authToken, TOKEN_SECRET) as JwtPayload;
+        const tokenSecret = new TextEncoder().encode(process.env.TOKEN_SECRET);
+        const decoded = await jwtVerify(authToken, tokenSecret);
         const data = await request.formData();
         const title = data.get("title") as string;
         const type = data.get("type") as string;
@@ -16,7 +19,7 @@ export const actions: Actions = {
         const unitType = data.get("unitType") as string;
         const price = data.get("price") as string;
         const city = data.get("city") as string;
-        const userId = decoded.userId;
+        const userId = decoded.payload.userId;
         const createProductData = {
             title, type, description, quantity, unitType, price, city, userId
         }
