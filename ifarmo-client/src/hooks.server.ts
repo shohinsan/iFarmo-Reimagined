@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import {redirect, type HandleServerError} from '@sveltejs/kit';
 import { prepareStylesSSR } from '@svelteuidev/core';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
