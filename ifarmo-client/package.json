@@ -3,9 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"preinstall": "npm -g install pnpm && pnpm run build",
 		"dev": "vite dev",
-		"build": "pnpm build",
+		"build": "vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
