@@ -1,6 +1,6 @@
 import type {LayoutServerLoad} from './$types';
 
-const PRODUCTS_API_ENDPOINT = "http://172.30.0.2:8000/api/product";
+const PRODUCTS_API_ENDPOINT = "http://0.0.0.0:8000/api/product";
 
 interface Product {
     productId: number;

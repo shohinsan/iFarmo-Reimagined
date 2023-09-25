@@ -1,7 +1,7 @@
 import {type Actions, redirect} from "@sveltejs/kit";
 
 
-const USER_API_ENDPOINT = "http://172.30.0.2:8000/api/user";
+const USER_API_ENDPOINT = "http://0.0.0.0:8000/api/user";
 
 export const actions = {
     change_password: async ({request, cookies, fetch}) => {
