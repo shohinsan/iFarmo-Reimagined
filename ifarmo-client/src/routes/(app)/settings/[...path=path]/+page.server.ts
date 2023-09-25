@@ -1,6 +1,6 @@
 import {type Actions, redirect} from "@sveltejs/kit";
 
-const API_ENDPOINT = "http://0.0.0.0:8000/api/user";
+const API_ENDPOINT = "http://172.24.0.1:8000/api/user";
 
 export const actions = {
     delete: async ({cookies, fetch}) => {

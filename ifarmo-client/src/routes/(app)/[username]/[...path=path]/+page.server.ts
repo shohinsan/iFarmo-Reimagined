@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import {error} from "@sveltejs/kit";
 
-const PROFILE_API_ENDPOINT = "http://0.0.0.0:8000/api/user";
+const PROFILE_API_ENDPOINT = "http://172.24.0.1:8000/api/user";
 export const load: PageServerLoad = async ({ fetch, params }) => {
     // -----------------------------------------------
     const username = params.username;

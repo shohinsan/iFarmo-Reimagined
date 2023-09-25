@@ -4,7 +4,7 @@
     import {fly} from 'svelte/transition';
     import {browser} from '$app/environment';
 
-    const API_ENDPOINT = "http://0.0.0.0:8000/api/notification";
+    const API_ENDPOINT = "http://172.24.0.1:8000/api/notification";
 
     import type {ActionData} from "./$types";
 
