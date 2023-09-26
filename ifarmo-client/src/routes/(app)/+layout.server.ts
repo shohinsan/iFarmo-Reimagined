@@ -1,6 +1,6 @@
 import type {LayoutServerLoad} from './$types';
 import {redirect} from "@sveltejs/kit";
-const API_ENDPOINT = "http://172.24.0.1:8000/api/user";
+const API_ENDPOINT = "http://137.184.224.144:8000/api/user";
 export const load: LayoutServerLoad = async ({locals, fetch, parent}) => {
     await parent();
     const user = locals.user;

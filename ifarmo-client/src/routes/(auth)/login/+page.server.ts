@@ -3,7 +3,7 @@ import { fail, type Actions, redirect } from '@sveltejs/kit';
 // @ts-ignore
 import { TOKEN_SECRET } from "$env/static/private";
 import {SignJWT} from "jose";
-const API_ENDPOINT = "http://172.24.0.1:8000/api/auth";
+const API_ENDPOINT = "http://137.184.224.144:8000/api/auth";
 
 export const actions = {
     default: async ({ request, cookies }) => {

@@ -2,8 +2,8 @@ import {type Actions, redirect} from "@sveltejs/kit";
 import {getServiceWorkerWebPushConfig} from "../../../../sw";
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
-const API_ENDPOINT = "http://172.24.0.1:8000/api/product";
-const NOTIFICATION_API_ENDPOINT = "http://172.24.0.1:8000/api/notification";
+const API_ENDPOINT = "http://137.184.224.144:8000/api/product";
+const NOTIFICATION_API_ENDPOINT = "http://137.184.224.144:8000/api/notification";
 
 export const actions = {
     delete: async ({cookies, fetch, params}) => {
