@@ -105,13 +105,13 @@
                 <Text color="lime" >Copyright @ 2023-2023 iFarmo Inc.</Text>
                 <Group>
                     <ActionIcon color="lime" >
-                            <InstagramLogo size="md" />
+                            <InstagramLogo size={32} />
                     </ActionIcon>
                     <ActionIcon color="lime">
-                        <DiscordLogo size="md" />
+                        <DiscordLogo size={32} />
                     </ActionIcon>
                     <ActionIcon color="lime">
-                        <TwitterLogo size="md" />
+                        <TwitterLogo size={32} />
                     </ActionIcon>
                 </Group>
             </Group>

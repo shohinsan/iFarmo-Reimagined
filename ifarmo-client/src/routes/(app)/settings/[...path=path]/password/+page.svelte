@@ -1,5 +1,4 @@
 <script lang="ts">
-    import InputField from "$components/InputField.svelte";
     import {enhance} from "$app/forms";
     import {fly} from 'svelte/transition';
     import type {ActionData} from "./$types";
@@ -30,7 +29,7 @@
         width: '100%',
         backgroundColor: '#FAF9F6',
     }}>
-        <Divider label='Change password' labelPosition='left' />
+        <Divider labelPosition='left' />
         <p>Update your password associated with your account</p>
         <form action="?/change_password" method="POST"
               use:enhance={() => ({ update }) => {
@@ -38,12 +37,36 @@
                   submitForm();
               }}>
 
-            <TextInput label="Your Current Password" placeholder="Your current password" name="password"/>
-            <TextInput label="Your new password" placeholder="Your new password" name="new_password"/>
+            <TextInput label="Your Current Password" placeholder="Your current password" name="password"
+                       override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
+            />
+            <TextInput label="Your new password" placeholder="Your new password" name="new_password"
+                       override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
+            />
             <TextInput label="Confirm your new password" placeholder="Confirm your new password"
-                        name="confirm_new_password"/>
+                        name="confirm_new_password"
+                       override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
+            />
 
-            <Button override={{marginTop: '20px'}} type="submit"
+            <Button ripple override={{marginTop: '20px'}} type="submit"
                     element="button"  color="green">
                 Save
             </Button>

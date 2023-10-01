@@ -14,7 +14,7 @@ export async function POST() {
         console.log("pushSubscription", pushSubscription)
         const pushSubscriptionPayload = JSON.stringify(pushSubscription);
         console.log("pushSubscriptionPayload", pushSubscriptionPayload)
-        const response = await fetch("http://137.184.224.144:8000/api/notification/send", {
+        const response = await fetch("https://localhost:8443/api/notification/send", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 <script>
     import { onDestroy } from "svelte";
-    import { messages } from "$helpers/chat.ts";
+    import { messages } from "$helpers/chat";
 
     let messageData = [];
     const unsubscribe = messages.subscribe((messages) => {

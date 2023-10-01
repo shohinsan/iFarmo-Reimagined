@@ -4,25 +4,28 @@
     import {fly} from 'svelte/transition';
     import {browser} from '$app/environment';
 
-    const API_ENDPOINT = "http://137.184.224.144:8000/api/notification";
+    const API_ENDPOINT = "https://localhost:8443/api/notification";
 
     import type {ActionData} from "./$types";
 
     let form: ActionData
     import {
+        ActionIcon,
         Affix,
         Anchor,
         Button,
-        Card,
+        Card, colorScheme,
         Divider,
         Group,
         NativeSelect,
-        Notification, Switch, Text,
-        TextInput
+        Notification, Switch, Text, Textarea,
+        TextInput, Tooltip
     } from "@svelteuidev/core";
     import Delete from "$components/Delete.svelte";
     import {quintInOut} from "svelte/easing";
-
+    import {hotkey, useOs} from "@svelteuidev/composables";
+    import {Moon, Sun} from "radix-icons-svelte";
+    const os = useOs();
     let userRoleOptions = ['user', 'worker', 'farmer'];
 
     $: credentials = $page.data.credentials;
@@ -56,7 +59,11 @@
     }
 
 
+    const mod = os === 'macos' ? '⌘' : 'ctrl';
 
+    function toggle() {
+        colorScheme.set($colorScheme === 'dark' ? 'light' : 'dark');
+    }
 
 </script>
 
@@ -71,7 +78,7 @@
               width: '100%',
         backgroundColor: '#FAF9F6',
     }}>
-        <Divider label='Personal Information' labelPosition='left'/>
+        <Divider labelPosition='left'/>
         <p>This information is intended to be displayed publicly</p>
         <form action="?/update"
               method="POST"
@@ -83,11 +90,25 @@
                        bind:value={credentials.name}
                        label="Name"
                        placeholder="Your name"
+                       override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
             />
             <TextInput name="username"
                        bind:value={credentials.username}
                        label="Username"
                        placeholder="Your username"
+                       override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
 
             />
 
@@ -95,9 +116,24 @@
                        bind:value={credentials.email}
                        label="Email"
                        placeholder="Your email"
+                       override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
             />
 
-            <NativeSelect bind:value={credentials.role} name="role" data={userRoleOptions} label="Role">
+            <NativeSelect
+                    override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
+                    bind:value={credentials.role} name="role" data={userRoleOptions} label="Role">
                 {#each userRoleOptions as option (option)}
                     <option value={option}>{option}</option>
                 {/each}
@@ -127,8 +163,7 @@
         <Divider
                 override={{
                     marginTop: '40px',
-                }}
-                label='Security' labelPosition='left'/>
+                }} labelPosition='left'/>
 
 
         <Group position="apart">
@@ -137,6 +172,7 @@
             <Switch
                     checked={checkedNotif}
                     size='md'
+                    color="limegreen"
                     onLabel="ON"
                     offLabel="OFF"
                     id="Notificationclick"
@@ -149,8 +185,32 @@
             color: 'red',
         }}>Note: location is disabled via Browser settings</Text>
 
+        <Divider
+                override={{
+                    marginTop: '40px',
+                }} labelPosition='left'/>
+
+        <Group position="apart">
+            <Text>Dark Mode</Text>
+
+            <div class="switch-background">
+                <Switch use={[[hotkey, [['mod+J', toggle]]]]}
+                        size='md'
+                        color="limegreen"
+                        onLabel="ON"
+                        offLabel="OFF"
+                        id="Notificationclick"
+                        on:click={toggle}
+                />
+            </div>
 
 
+
+        </Group>
+        <br />
+        <Text override={{
+            color: 'red',
+        }}>Note: Dark Mode is persistent at the moment</Text>
 
         <Divider
                 override={{
@@ -185,5 +245,6 @@
     align-items: center;
     justify-content: center;
   }
+
 
 </style>

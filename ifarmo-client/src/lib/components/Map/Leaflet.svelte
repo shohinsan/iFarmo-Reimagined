@@ -7,10 +7,9 @@
     export let view: L.LatLngExpression | undefined = undefined;
     export let zoom: number | undefined = undefined;
 
-    // Event dispatcher
     const dispatch = createEventDispatcher();
 
-    let map: L.Map | undefined;
+    let map: L.Map;
     let mapElement: HTMLElement;
 
 
@@ -19,6 +18,15 @@
             view = [position.coords.latitude, position.coords.longitude];
             zoom = 13;
         });
+    }
+
+     function initialView() {
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition((position) => {
+                view = [position.coords.latitude, position.coords.longitude];
+                zoom = 13;
+            });
+        }
     }
 
     onMount(() => {
@@ -57,9 +65,9 @@
         // Initialize the toolbox after the map is loaded
         let eye = true;
         let lines = true;
-        let toolbar =  L.control({ position: 'topright' });
-        let toolbarComponent;
-        toolbar.onAdd = (map) => {
+        let toolbar = new L.Control({ position: 'topright' });
+        let toolbarComponent: Toolbox | null;
+        toolbar.onAdd = (map: any) => {
             let div = L.DomUtil.create('div');
             toolbarComponent = new Toolbox({
                 target: div,
@@ -89,9 +97,9 @@
 
     let eye = true;
     let lines = true;
-    let toolbar =  L.control({ position: 'topright' });
-    let toolbarComponent;
-    toolbar.onAdd = (map) => {
+    let toolbar = new L.Control({ position: 'topright' });
+    let toolbarComponent: Toolbox | null;
+    toolbar.onAdd = (map: any) => {
         let div = L.DomUtil.create('div');
         toolbarComponent = new Toolbox({
             target: div,
@@ -114,9 +122,9 @@
         }
     };
 
+
     onDestroy(() => {
         map?.remove();
-        map = undefined;
     });
 
     setContext('map', {

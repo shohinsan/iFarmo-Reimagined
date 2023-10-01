@@ -1,6 +1,6 @@
 import type {LayoutServerLoad} from './$types';
 
-const PRODUCTS_API_ENDPOINT = "http://137.184.224.144:8000/api/product";
+const PRODUCTS_API_ENDPOINT = "https://localhost:8443/api/product";
 
 interface Product {
     productId: number;
@@ -48,14 +48,16 @@ export const load: LayoutServerLoad = async ({fetch, url}) => {
     });
     const details = await Promise.all(promise);
 
+    let searchResults: Product[] = [];
     const searchQueryParam = url.searchParams.get('search');
     if (searchQueryParam !== null) {
         const query = searchQueryParam.toLowerCase();
-        const search = products.filter((product: { title: string; }) =>
+        searchResults = products.filter((product: { title: string; }) =>
             product.title.toLowerCase().includes(query)
-        )
+        );
     }
 
+    let filterResults: Product[] = [];
     const filterQueryParam = url.searchParams.get('filter');
     if (filterQueryParam !== null) {
         const query = filterQueryParam.toLowerCase();
@@ -66,8 +68,6 @@ export const load: LayoutServerLoad = async ({fetch, url}) => {
             type: string;
         }) => tags.includes(product.type.toLowerCase()));
 
-
-
         const cityFilteredProducts = products.filter((product: {
             city: string;
         }) => product.city.toLowerCase().includes(query));
@@ -76,21 +76,19 @@ export const load: LayoutServerLoad = async ({fetch, url}) => {
             maxPrice: number;
         }) => product.maxPrice !== undefined && product.maxPrice <= parseFloat(query));
 
-        const filteredProducts = [...typeFilteredProducts, ...cityFilteredProducts, ...maxPriceFilteredProducts];
+        filterResults = [...typeFilteredProducts, ...cityFilteredProducts, ...maxPriceFilteredProducts];
 
-        console.log("filter result", JSON.stringify(filteredProducts, null, 2));
-        for (const product of filteredProducts) {
-            console.log("Product Type:", product.type);
-            console.log("Product City:", product.city);
-            console.log("Product Max Price:", product.maxPrice);
-        }
+        // console.log("filter result", JSON.stringify(filterResults, null, 2));
+        // for (const product of filterResults) {
+        //     console.log("Product Type:", product.type);
+        //     console.log("Product City:", product.city);
+        //     console.log("Product Max Price:", product.maxPrice);
+        // }
     }
-
 
     return {
         products: details,
-        search: products,
-        filter: products,
+        search: searchResults,
+        filter: filterResults,
     };
 };
-

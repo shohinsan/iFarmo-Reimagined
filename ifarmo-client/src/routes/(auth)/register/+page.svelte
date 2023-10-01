@@ -1,11 +1,7 @@
 <script lang="ts">
-    import { Anchor, Button, Container } from "@svelteuidev/core";
-    import { Input, InputWrapper } from '@svelteuidev/core';
+    import {Anchor, Button, Container, TextInput} from "@svelteuidev/core";
     import {EnvelopeClosed, FontStyle, LockClosed, Person} from 'radix-icons-svelte';
     import {enhance} from '$app/forms';
-    import type {ActionData} from "./$types";
-
-    export let form: ActionData
 
     let sizes = {
         xs: 0,
@@ -20,16 +16,16 @@
 
 <div class="content">
     <form method="POST" use:enhance>
-    <Container {sizes} size={300} override={{ px: 0 }}>
+    <Container {sizes} override={{ px: 0 }}>
         <div class="input-container">
-            <Input icon={FontStyle}
+            <TextInput icon={FontStyle}
                    name="name"
                    placeholder="Your name"
                    radius="md"
                    size="md" />
         </div>
         <div class="input-container">
-            <Input icon={Person}
+            <TextInput icon={Person}
                    name="username"
                    placeholder="Your username"
                    radius="md"
@@ -39,7 +35,7 @@
 
 
         <div class="input-container">
-            <Input icon={EnvelopeClosed}
+            <TextInput icon={EnvelopeClosed}
                    name="email"
                    placeholder="Your email"
                    radius="md"
@@ -47,7 +43,7 @@
         </div>
 
         <div class="input-container">
-            <Input icon={LockClosed}
+            <TextInput icon={LockClosed}
                    name="password"
                    placeholder="Your Password"
                    radius="md"
@@ -55,7 +51,7 @@
         </div>
 
         <div class="input-container">
-            <Input icon={LockClosed}
+            <TextInput icon={LockClosed}
                    name="confirm_password"
                    placeholder="Confirm Your Password"
                    radius="md"

@@ -55,7 +55,9 @@
 </Modal>
 
 {#if withOpenButton}
-    <Button ripple color="red" on:click={() => (opened = true)}>Delete account</Button>
+    <Button override={{
+        width: '49%',
+    }} ripple color="red" on:click={() => (opened = true)}>Delete account</Button>
 {/if}
 
 {#if notificationOpened}

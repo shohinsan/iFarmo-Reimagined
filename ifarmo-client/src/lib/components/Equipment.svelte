@@ -26,21 +26,19 @@
     let notificationOpened = false;
 
     const title = 'Title';
-    let titleValue;
+    let titleValue: string;
     const type = 'Type';
-    let typeValue;
+    let typeValue: string;
     const description = 'Description';
-    let descriptionValue;
+    let descriptionValue: string;
     const quantity = 'Quantity';
-    let quantityValue;
+    let quantityValue: number;
     const price = 'Price';
-    let priceValue;
+    let priceValue: number;
     const unitType = 'Unit Type';
-    let unitTypeValue;
-    let price = 'Price';
-    let priceValue;
+    let unitTypeValue: string
     const city = 'City';
-    let cityValue;
+    let cityValue: string;
 
 
 

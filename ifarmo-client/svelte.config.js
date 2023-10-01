@@ -1,14 +1,11 @@
 import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
 
-
 const config = {
 	preprocess: [
 		preprocess({
 			scss: {
-				prependData: `
-        @use 'src/styles/breakpoints' as breakpoint;
-      `
+				prependData: `@use 'src/styles/breakpoints' as breakpoint;`
 			}
 		})
 	],
@@ -16,13 +13,13 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$components: 'src/lib/components',
-			$types: 'src/lib/types',
+			$customTypes: 'src/app.d.ts',
 			$helpers: 'src/helpers',
 			$assets: 'src/assets',
 			$fonts: 'src/lib/fonts',
 			$styles: 'src/styles',
 		},
-	}
+	},
 };
 
 export default config;

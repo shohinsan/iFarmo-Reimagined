@@ -1,19 +1,22 @@
-<script>
+<script lang="ts">
     import {
-        Accordion,
+        Accordion, Anchor,
         Badge, Box, Button,
         Card,
-        Center,
         Container,
-        Grid,
         Group,
         Image,
         SimpleGrid,
         Stack,
         Text, Textarea, TextInput
     } from "@svelteuidev/core";
-
-    export let data;
+    import Quality from "$lib/icons/Quality.svelte";
+    import Easy from "$lib/icons/Easy.svelte";
+    import Reliable from "$lib/icons/Reliable.svelte";
+    import Convenient from "$lib/icons/Convenient.svelte";
+    import Variety from "$lib/icons/Variety.svelte";
+    import Support from "$lib/icons/Support.svelte";
+    import Farm from "$lib/icons/Farm.svelte";
 </script>
 
 <svelte:head>
@@ -24,23 +27,20 @@
     <Container
             override={{
         padding: '50px',
-        bc: 'AliceBlue',
-        '@media (min-width: 992px)': {
-            width: '900px !important',
-        },
-        '@media (min-width: 768px) and (max-width: 991px)': {
-            width: '700px !important',
-        },
-        '@media (max-width: 767px)': {
-            width: '400px !important',
-        },
-        'padding-bottom': '100px', // Add some bottom padding
+        'padding-bottom': '100px',
     }}>
         <Image src={"src/assets/hero_header.svg"}/>
         <Stack override={{
             paddingTop: '50px',
         }}>
-            <Text weight={600} size="xl">Key features</Text>
+            <Text
+                    variant="gradient"
+                    gradient={{ from: 'green', to: 'lime', deg: 45 }}
+                    override={{
+                textAlign: 'center',
+            }}
+                    weight="bold" size="xl">Key features
+            </Text>
         </Stack>
         <SimpleGrid
                 override={{
@@ -52,106 +52,127 @@
                 { minWidth: 1200, cols: 3 }
             ]}>
 
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image override={{
-                            objectFit: 'cover',
-                            marginBottom: '$20',
-                        }} src="src/assets/svelte.svg"
-                               height={100}
-                                alt="###"/>
-                    </Card.Section>
-
-                    <Stack>
-                        <Text weight={500}>Quality</Text>
-                        <Text>We've established partnerships with the finest farms and stores to guarantee that the
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Quality width={50} height={50}/>
+                        <Text weight="bold">Quality</Text>
+                        <Text override={{
+                            height: '100px',
+                        }}>We've established partnerships with the finest farms and stores to guarantee that the
                             produce and products you find here are nothing short of the very best.
                         </Text>
-                    </Stack>
+                    </Group>
                 </Card>
             </div>
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Easy</Text>
-                        <Text>Selling, lending, hiring, or buying on our platform is a breeze. We've streamlined the
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Easy width={50} height={50}/>
+                        <Text weight="bold">Easy</Text>
+                        <Text override={{
+                            height: '100px',
+                        }}>Selling, lending, hiring, or buying on our platform is a breeze. We've streamlined the
                             process to save you time and effort.
                         </Text>
-                    </Stack>
+                    </Group>
                 </Card>
             </div>
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Reliable</Text>
-                        <Text>We prioritize reliability in every aspect of our platform. You can trust us to connect you
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Reliable width={50} height={50}/>
+                        <Text weight="bold">Reliable</Text>
+                        <Text override={{
+                            height: '100px',
+                        }}>We prioritize reliability in every aspect of our platform. You can trust us to connect you
                             with reputable farmers and dependable services.
                         </Text>
-                    </Stack>
+                    </Group>
                 </Card>
             </div>
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Convenience</Text>
-                        <Text>Find for fresh produce and agricultural products from the comfort of your home.</Text>
-                    </Stack>
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Convenient width={50} height={50}/>
+                        <Text weight="bold">Convenience</Text>
+                        <Text override={{
+                            height: '100px',
+                        }}>Find for fresh produce and agricultural products from the comfort of your home or office.
+                        </Text>
+                    </Group>
                 </Card>
             </div>
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Variety</Text>
-                        <Text>Discover a wide range of agricultural products from different sellers.</Text>
-                    </Stack>
-                </Card>
-            </div>
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Support</Text>
-                        <Text>We provide excellent customer support to assist you throughout your journey.</Text>
-                    </Stack>
-                </Card>
 
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Variety width={50} height={50}/>
+                        <Text weight="bold">Variety</Text>
+                        <Text override={{
+                            height: '100px',
+                        }}>Discover a wide range of agricultural products from different sellers.
+                        </Text>
+                    </Group>
+                </Card>
             </div>
+
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Support width={50} height={50}/>
+                        <Text weight="bold">Support</Text>
+                        <Text override={{
+                            height: '100px',
+                        }}>We provide excellent customer support to assist you throughout your journey.
+                        </Text>
+                    </Group>
+                </Card>
+            </div>
+
         </SimpleGrid>
 
         <Stack override={{
             paddingTop: '50px',
         }}>
-            <Text weight={600} size="xl">Featured Products & Sellers</Text>
+            <Text
+                    variant="gradient"
+                    gradient={{ from: 'green', to: 'lime', deg: 45 }}
+                    override={{
+                textAlign: 'center',
+            }}
+                    weight="bold" size="xl">Featured Sellers
+            </Text>
         </Stack>
 
         <SimpleGrid
@@ -164,108 +185,241 @@
                 { minWidth: 1200, cols: 3 }
             ]}>
 
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Featured Product 1</Text>
-                        <Text>Discover this amazing product from one of our top sellers.</Text>
-                    </Stack>
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Farm width={50} height={50}/>
+                        <Text weight="bold">Farm Title</Text>
+                    </Group>
+                    <Text override={{
+                                            color: '$gray500',
+                                            marginTop: '15px',
+                                            height: '55px',
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                        }}>
+                        <!--                            {product.description.length > 96-->
+                        <!--                                ? `${product.description.slice(0, 96)}`-->
+                        <!--                                : product.description}...-->
+                        Description
+                    </Text>
+                    <Group override={{
+                        paddingTop: '20px',
+                    }}>
+                        <Badge variant="light" size="lg" radius="sm">
+                            City
+                        </Badge>
+                        <Text>Farm City</Text>
+                    </Group>
+                    <Group override={{
+                        paddingTop: '10px',
+                    }}>
+                        <Badge variant="light" size="lg" radius="sm">
+                            Hours
+                        </Badge>
+                        <Text>Farm Work Hours</Text>
+                    </Group>
                 </Card>
             </div>
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Featured Product 2</Text>
-                        <Text>Don't miss out on this popular item from our sellers.</Text>
-                    </Stack>
+
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Farm width={50} height={50}/>
+                        <Text weight="bold">Farm Title</Text>
+                    </Group>
+                    <Text override={{
+                                            color: '$gray500',
+                                            marginTop: '15px',
+                                            height: '55px',
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                        }}>
+                        <!--                            {product.description.length > 96-->
+                        <!--                                ? `${product.description.slice(0, 96)}`-->
+                        <!--                                : product.description}...-->
+                        Description
+                    </Text>
+                    <Group override={{
+                        paddingTop: '20px',
+                    }}>
+                        <Badge variant="light" size="lg" radius="sm">
+                            City
+                        </Badge>
+                        <Text>Farm City</Text>
+                    </Group>
+                    <Group override={{
+                        paddingTop: '10px',
+                    }}>
+                        <Badge variant="light" size="lg" radius="sm">
+                            Hours
+                        </Badge>
+                        <Text>Farm Work Hours</Text>
+                    </Group>
                 </Card>
             </div>
-            <div style="width: 280px; margin: auto">
-                <Card shadow="sm" padding="xl">
-                    <Card.Section first padding="lg">
-                        <Image
-                                src="###"
-                                height={100}
-                                alt="###"/>
-                    </Card.Section>
-                    <Stack>
-                        <Text weight={500}>Featured Sellers 1</Text>
-                        <Text>Get to know our top-rated seller who offers quality products.</Text>
-                    </Stack>
+
+            <div style="width: 280px; margin: auto;">
+                <Card override={{
+                    borderRadius: '$lg',
+                }} shadow="sm" padding="xl">
+                    <Group override={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}>
+                        <Farm width={50} height={50}/>
+                        <Text weight="bold">Farm Title</Text>
+                    </Group>
+                    <Text override={{
+                                            color: '$gray500',
+                                            marginTop: '15px',
+                                            height: '55px',
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                        }}>
+                        <!--                            {product.description.length > 96-->
+                        <!--                                ? `${product.description.slice(0, 96)}`-->
+                        <!--                                : product.description}...-->
+                        Description
+                    </Text>
+                    <Group override={{
+                        paddingTop: '20px',
+                    }}>
+                        <Badge variant="light" size="lg" radius="sm">
+                            City
+                        </Badge>
+                        <Text>Farm City</Text>
+                    </Group>
+                    <Group override={{
+                        paddingTop: '10px',
+                    }}>
+                        <Badge variant="light" size="lg" radius="sm">
+                            Hours
+                        </Badge>
+                        <Text>Farm Work Hours</Text>
+                    </Group>
                 </Card>
             </div>
+
         </SimpleGrid>
 
         <Stack override={{
             paddingTop: '50px',
             paddingBottom: '50px',
         }}>
-            <Text weight={600} size="xl">Join Our Community</Text>
+            <Text
+                    variant="gradient"
+                    gradient={{ from: 'green', to: 'lime', deg: 45 }}
+                    override={{
+                textAlign: 'center',
+            }}
+                    weight="bold" size="xl">Joun Our Community
+            </Text>
         </Stack>
-
-        <Box
-                css={{
-        backgroundColor: '$gray50',
-        textAlign: 'center',
-        padding: '$20',
-        borderRadius: '$md',
-        cursor: 'pointer',
-        '&:hover': {
-            backgroundColor: '$gray100',
-        },
-    }}
-        >
-            Connect with other users, share experiences, and get involved in discussions.
-        </Box>
-
+        <Anchor underline={false} href="https://discord.gg/crChkavyme">
+            <Box css={{
+                backgroundColor: '$gray50',
+                textAlign: 'center',
+                padding: '$20',
+                borderRadius: '$md',
+                cursor: 'pointer',
+                '&:hover': {
+                backgroundColor: '$gray100',
+            }}}>Connect with other users, share experiences, and get involved in discussions.
+            </Box>
+        </Anchor>
         <Stack override={{
             paddingTop: '50px',
+            paddingBottom: '50px',
         }}>
-            <Text weight={600} size="xl">Contact Us</Text>
-            <Text>If you have any questions, need assistance, or willing to become a farmer please reach out to us using the form below:
+            <Text variant="gradient"
+                  gradient={{ from: 'green', to: 'lime', deg: 45 }}
+                  override={{
+                textAlign: 'center',
+            }}
+                    weight="bold" size="xl">Contact Us
+            </Text>
+            <Text color="gray">If you have any questions, need assistance, or willing to become a farmer please reach
+                out to us using
+                the form below:
             </Text>
         </Stack>
 
+
         <form action="?/support" method="POST">
-                <TextInput
-                        label="Name"
-                        name="name"
-                        placeholder="Enter your name"
-                />
+            <Card override={{
+            borderRadius: '$lg',
+            paddingTop: '50px',
+            paddingBottom: '50px',
+        }}>
+                    <TextInput
+                            label="Name"
+                            name="name"
+                            placeholder="Enter your name"
+                            id="name"
+                            override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
+                    />
+
                 <TextInput
                         label="Username"
                         name="username"
                         placeholder="Enter your username"
+                        override={{
+                            '.svelteui-Input-input': {
+                                '&:focus': {
+                                    borderColor: "limegreen"
+                                }
+                            }
+                        }}
                 />
-            <Textarea placeholder="Message" label="Message"
-                      name="message"
-                      resize="vertical"
-                      rows={6}
-                      aria-label="Comment"/>
-            <Button override={{
-                marginTop: '$10',
-            }}
-                    type="submit">
-                Send Message
-            </Button>
+
+                <Textarea placeholder="Message" label="Message"
+                          name="message"
+                          resize="vertical"
+                          rows={6}
+                          aria-label="Comment"
+                          override={{
+                                '.svelteui-Input-input': {
+                                    '&:focus': {
+                                        borderColor: "limegreen"
+                                    }
+                                }
+                            }}
+                />
+                <Button override={{
+                    marginTop: '$10',
+                }} ripple color="limegreen" type="submit">Send Message</Button>
+            </Card>
+
         </form>
 
         <Stack override={{
             paddingTop: '50px',
         }}>
-            <Text weight={600} size="xl">Frequently asked questions</Text>
+            <Text
+                    variant="gradient"
+                    gradient={{ from: 'green', to: 'lime', deg: 45 }}
+                    override={{
+                textAlign: 'center',
+            }}
+                    weight="bold" size="xl">Frequency Asked Questions
+            </Text>
         </Stack>
 
         <Accordion override={{

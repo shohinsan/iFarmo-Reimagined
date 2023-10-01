@@ -1,20 +1,22 @@
 <script lang="ts">
     import {
-        colorScheme,
         ActionIcon,
-        Burger,
-        Tooltip,
-        ShellSection, Button, Group, Menu, Divider, Anchor
+        Burger, Button, Group, Menu, Divider, Anchor, Input, NativeSelect
     } from '@svelteuidev/core';
-    import {Sun, Moon, Gear, Bell, Person, Width, SewingPin} from 'radix-icons-svelte';
-    import {hotkey, useOs} from '@svelteuidev/composables';
+    import {
+        Gear,
+        Bell,
+        Person,
+        Width,
+        SewingPin,
+
+        MagnifyingGlass,
+    } from 'radix-icons-svelte';
     import {page} from "$app/stores";
     import {enhance} from "$app/forms";
-
-    import type {PageData} from './$types';
     import location from "$helpers/location";
 
-    export let data: PageData;
+    export let data: any;
     $: user = data.user;
 
     let credentials: any;
@@ -22,19 +24,13 @@
         credentials = $page.data.credentials;
     }
 
-    // console.log($page.data.credentials.username);
 
-    const os = useOs();
-    const mod = os === 'macos' ? '⌘' : 'ctrl';
     let opened = false;
 
     function toggleOpen() {
         opened = !opened;
     }
 
-    function toggle() {
-        colorScheme.set($colorScheme === 'dark' ? 'light' : 'dark');
-    }
 
     interface NavItem {
         name: string;
@@ -82,54 +78,81 @@
 
     let notificationsOpened = true;
 
+
+    let selectedValue = 'products';
+
+    function logSelectedValue(event:any) {
+        selectedValue = event.target.value;
+    }
+
+
 </script>
 
 <nav>
-    <div class="location">
-        <ShellSection grow>
-            <Anchor underline={false} href="/map">
-                {#if $location}
-                    <Button>
-                        <SewingPin slot="leftIcon"/>
-                        <span class="link-text">{$location.city}</span>
-                    </Button>
+    <div class="upper-nav">
+        <div class="nav-group">
+            <div class="logo-search">
+                <a href="/" class="title">iFarmo</a>
+
+                {#if
+                    !($page.url.pathname === '/settings') &&
+                    !($page.url.pathname === '/chat') &&
+                    !($page.url.pathname === '/settings/password')
+                }
+                    <Group override={{
+                               borderRadius: '5rem',
+                               border: '1px solid #ccc',
+                               padding: '0 2rem',
+                               backgroundColor: '#fff',
+                        }}>
+                        <div class="input-container">
+                            <Input
+                                    variant='unstyled'
+                                    placeholder='Search'
+                            />
+
+                            <NativeSelect bind:value={selectedValue} on:change={logSelectedValue}
+                                          rightSectionWidth={0}
+                                          variant='unstyled'
+                                          data={[
+                                        { label: 'For sale', value: 'products' },
+                                        { label: 'Jobs', value: 'jobs' },
+                                        { label: 'Equipment', value: 'equipment' },
+                                        { label: 'Farms', value: 'farms' },
+                                        ]}
+
+
+                            />
+
+                            <Anchor href={`/${selectedValue}`}>
+                                <ActionIcon>
+                                    <MagnifyingGlass size={16}/>
+                                </ActionIcon>
+                            </Anchor>
+
+                        </div>
+                    </Group>
                 {/if}
-            </Anchor>
-        </ShellSection>
-        <Group>
-            <Menu>
-                <Button slot="control">
-                    <Bell size={16} />
-                </Button>
-                <Menu.Label>Notifications</Menu.Label>
-                <Menu.Item override={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'normal',
-                    wordBreak: 'break-all',
-                    maxWidth: '200px',
-                    minHeight: '5em',
-                    }}>
-                    Settingsasdfioadsjfopadsjfopi[adsjfadsjfop]adsjfop[ads
-                </Menu.Item>
-            </Menu>
 
-            <Tooltip label={`${mod} + J`}>
-                <ActionIcon variant="default" on:click={toggle} size={35} use={[[hotkey, [['mod+J', toggle]]]]}>
-                    {#if $colorScheme === "dark"}
-                        <Moon/>
-                    {:else}
-                        <Sun/>
+
+            </div>
+            <div class="location">
+                <Anchor underline={false} href="/map">
+                    {#if $location}
+                        <Button>
+                            <SewingPin slot="leftIcon"/>
+                            <span class="link-text">{$location.city}</span>
+                        </Button>
                     {/if}
-                </ActionIcon>
-            </Tooltip>
-        </Group>
+                </Anchor>
+            </div>
+        </div>
     </div>
-    <div class="main-level">
 
+
+    <div class="main-level">
         <Group>
             <Burger {opened} on:click={toggleOpen} override={{ d: 'block', '@sm': { d: 'none'  } }}/>
-            <a href="/" class="title">iFarmo</a>
         </Group>
         <ul class="nav-links">
             {#each navItems as item}
@@ -140,24 +163,20 @@
                 </li>
             {/each}
         </ul>
+
+
         {#if user}
-            <Group>
-                {credentials.username}
-                <Menu placement="end" delay={500}>
+            <div class="user-menu">
+                <Menu>
+                    <Button radius="xl" color="primary" variant="circle" slot="control">{credentials.username}</Button>
                     <Menu.Label>Menu</Menu.Label>
-                    <Menu.Item
-                            root="a" href="/{$page.data.credentials.username}"
-                            icon={Person}>
+                    <Menu.Item root="a" href="/{$page.data.credentials.username}" icon={Person}>
                         Profile
                     </Menu.Item>
-                    <Menu.Item
-                            root="a" href="/chat"
-                            icon={Person}>
+                    <Menu.Item root="a" href="/chat" icon={Person}>
                         Chat
                     </Menu.Item>
-                    <Menu.Item
-                            root="a" href="/settings"
-                            icon={Gear}>
+                    <Menu.Item root="a" href="/settings" icon={Gear}>
                         Settings
                     </Menu.Item>
                     <Divider/>
@@ -167,13 +186,15 @@
                         </Menu.Item>
                     </form>
                 </Menu>
-            </Group>
+            </div>
         {:else}
-            <Anchor underline={false} href="/login">
-                <Button variant='gradient' gradient={{from: 'teal', to: 'green', deg: 105}}>
-                    Login
-                </Button>
-            </Anchor>
+            <div class="login-button">
+                <Anchor underline={false} href="/login">
+                    <Button variant='gradient' gradient={{ from: 'teal', to: 'green', deg: 105 }}>
+                        Login
+                    </Button>
+                </Anchor>
+            </div>
         {/if}
     </div>
     {#if opened}
@@ -181,7 +202,7 @@
             <ul>
                 {#each navItems as item}
                     <li>
-                        <a href={item.href} class:active={item.href === $page.url.pathname}>
+                        <a href={item.href} class:active={item.href === $page.url.pathname} on:click={toggleOpen}>
                             {item.name}
                         </a>
                     </li>
@@ -201,18 +222,59 @@
     font-family: 'MS100', sans-serif;
   }
 
+  .upper-nav {
+    background-color: limegreen;
+    padding: 10px;
 
+  }
 
+  .nav-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media screen and (max-width: 576px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+  }
+
+  .logo-search {
+    display: flex;
+    width: 70%;
+
+    @media screen and (max-width: 576px) {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    margin-right: 20px;
+  }
 
 
   .location {
-    display: flex;
-    justify-content: end;
-    padding: 10px;
-    background-color: limegreen;
-    align-items: center;
-    text-align: center;
+    margin-right: 10px;
+
+    @media screen and (max-width: 576px) {
+      order: 2;
+      margin-top: 10px;
+    }
   }
+
+  .input-container {
+    display: flex;
+    align-items: center; /* Vertically center the items within the container */
+    border-radius: 8px 0 0 8px;
+    overflow: hidden;
+  }
+
 
   // -------------------------------------
   .main-level {
@@ -223,27 +285,7 @@
     padding: 0 1rem;
     background-color: var(--bg-color);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    // ----
-    .title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #333;
-      text-decoration: none;
 
-      &:hover {
-        color: limegreen;
-      }
-
-      @include breakpoint.up('md') {
-        margin-left: 2rem;
-      }
-      @include breakpoint.up('lg') {
-        margin-left: 3rem;
-      }
-      @include breakpoint.up('xl') {
-        margin-left: 4rem;
-      }
-    }
 
     // ----
     .nav-links {
@@ -263,44 +305,22 @@
 
       li {
         list-style: none;
+
         a {
           color: var(--text-color);
           text-decoration: none;
           transition: 0.2s;
           padding: 12px;
+
           &:hover {
             color: var(--text-color);
           }
+
           &.active {
             font-family: 'MS500', sans-serif;
             color: var(--text-color);
             text-shadow: 0 0 20px var(--text-color);
           }
-        }
-      }
-    }
-
-    // ----
-    .nav-links-mobile {
-      margin-right: 1rem;
-      @include breakpoint.up('md') {
-        display: none;
-      }
-      .menu-button {
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: 0.15s;
-        outline: none;
-        color: var(--text-color);
-        background-color: transparent;
-        border: none;
-        border-radius: 5px;
-        &:hover,
-        &:focus {
-          background-color: rgba(255, 255, 255, 0.1);
-        }
-        &:active {
-          background-color: rgba(255, 255, 255, 0.2);
         }
       }
     }
@@ -321,6 +341,11 @@
     @include breakpoint.up('md') {
       display: none;
     }
+
+    @media screen and (max-width: 576px) {
+        top: 11rem;
+    }
+
     ul {
       margin: 0;
       padding: 0;
@@ -330,39 +355,28 @@
       max-width: 100%;
       border-radius: 5px;
       background-color: var(--bg-color);
-      li {
-        width: 100%;
-        transition: 0.1s;
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-        a {
-          display: inline-block;
-          padding: 0.5rem 1rem;
-          height: 100%;
-          width: 100%;
-          color: var(--text-color);
-          text-decoration: none;
-          transition: 0.2s;
-          &.active {
-            color: var(--text-color);
-            text-shadow: 0 0 20px var(--text-color);
-          }
-        }
-      }
     }
 
-    .auth-section {
-      display: flex;
-      gap: 1rem;
-      a {
-        color: #555;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        &:hover {
-          color: limegreen;
-        }
-      }
+    li {
+      transition: 0.1s;
+      margin: 0;
+    }
+
+    li:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    a.active {
+      color: var(--text-color);
+      text-shadow: 0 0 20px var(--text-color);
     }
 
   }

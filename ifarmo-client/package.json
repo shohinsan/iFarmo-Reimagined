@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "NODE_EXTRA_CA_CERTS=/Users/insidious/Library/Application\\ Support/mkcert/rootCA.pem vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
@@ -15,9 +15,9 @@
 	"devDependencies": {
 		"@playwright/test": "^1.38.1",
 		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.25.0",
+		"@sveltejs/kit": "^1.25.1",
 		"@types/jsonwebtoken": "^9.0.3",
-		"@types/leaflet": "^1.9.5",
+		"@types/leaflet": "^1.9.6",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",
 		"@typescript-eslint/parser": "^5.62.0",
 		"eslint": "^8.50.0",
@@ -36,12 +36,14 @@
 		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@svelteuidev/composables": "^0.15.3",
 		"@svelteuidev/core": "^0.15.3",
+		"dotenv": "^16.3.1",
 		"is-safari": "^1.0.0",
 		"jose": "^4.14.6",
 		"leaflet": "^1.9.4",
 		"radix-icons-svelte": "^1.2.1",
 		"sass": "^1.68.0",
 		"svelte-preprocess": "^5.0.4",
-		"svelte-tiny-virtual-list": "^2.0.5"
+		"svelte-tiny-virtual-list": "^2.0.5",
+		"vite-plugin-mkcert": "^1.16.0"
 	}
 }

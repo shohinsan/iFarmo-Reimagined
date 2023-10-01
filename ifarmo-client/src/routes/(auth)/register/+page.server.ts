@@ -2,7 +2,7 @@ import {fail, type Actions, redirect} from '@sveltejs/kit';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { TOKEN_SECRET } from "$env/static/private";
-const API_ENDPOINT = "http://137.184.224.144:8000/api/auth";
+const API_ENDPOINT = "https://localhost:8443/api/auth";
 
 export const actions = {
     default: async ({ request,cookies }) => {

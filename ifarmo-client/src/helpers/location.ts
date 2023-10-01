@@ -1,6 +1,12 @@
 import { readable } from 'svelte/store';
 
-const locationPromise = new Promise((resolve, reject) => {
+interface LocationData {
+    city: string;
+    latitude: number;
+    longitude: number;
+}
+
+const locationPromise = new Promise<LocationData>((resolve, reject) => {
     if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -26,7 +32,7 @@ const locationPromise = new Promise((resolve, reject) => {
     }
 });
 
-const location = readable(null, (set) => {
+const location = readable<LocationData | null>(null, (set) => {
     locationPromise
         .then((data) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

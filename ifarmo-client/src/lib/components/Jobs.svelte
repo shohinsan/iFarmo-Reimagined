@@ -26,17 +26,17 @@
     let notificationOpened = false;
 
     const title = 'Title';
-    let titleValue;
+    let titleValue: string;
     const type = 'Type';
-    let typeValue;
+    let typeValue: string;
     const description = 'Description';
-    let descriptionValue;
+    let descriptionValue: string;
     const unitType = 'Unit Type';
-    let unitTypeValue;
+    let unitTypeValue: string;
     const salary = 'Salary';
-    let salaryValue;
+    let salaryValue: number;
     const city = 'City';
-    let cityValue;
+    let cityValue: string;
 
 
 

@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { error } from "@sveltejs/kit";
 
-const SINGLE_FARM_API_ENDPOINT = "http://137.184.224.144:8000/api/farm";
+const SINGLE_FARM_API_ENDPOINT = "https://localhost:8443/api/farm";
 export const load: PageServerLoad = async ({ fetch, params }) => {
     // -----------------------------------------------
     // Move the declaration of farmOwnerId here

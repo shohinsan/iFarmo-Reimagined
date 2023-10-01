@@ -13,6 +13,12 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+
+	declare  interface Document {
+		startViewTransition(callback: () => void): void;
+	}
+
+
 }
 
 type Data = {
@@ -39,9 +45,13 @@ type Farm = {
 
 type Product = {
 	productId: number;
-	name: string;
+	title: string;
+	type: string;
+	username: string;
+	image: string;
 	price: number;
 	role: string;
+	createdAt: string;
 	quantity: number;
 	unitType: string;
 	description: string;
@@ -49,9 +59,10 @@ type Product = {
 }
 
 export {
-	Data
+	Data, Product, Farm, Window, Document
 };
 
 declare interface Window {
 	refreshPromise: Promise<Response> | null;
 }
+
